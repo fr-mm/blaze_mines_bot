@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.exceptions import InvalidSecondsException
+from domain.exceptions import SecondsException
 
 
 @dataclass(frozen=True)
@@ -12,6 +12,6 @@ class Seconds:
 
     def __validate_not_negative(self) -> None:
         if self.value < 0:
-            raise InvalidSecondsException(
+            raise SecondsException(
                 f'Seconds must not be negative, got {self.value}'
             )

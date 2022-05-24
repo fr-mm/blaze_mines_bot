@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from domain.exceptions import InvalidSecondsException
+from domain.exceptions import SecondsException
 from domain.value_objects import Seconds
 
 
@@ -13,5 +13,5 @@ class TestSeconds(TestCase):
     def test_post_init_WHEN_negative_value_THEN_raises_invalid_seconds_exception(self) -> None:
         value = -1
 
-        with self.assertRaises(InvalidSecondsException):
+        with self.assertRaises(SecondsException):
             Seconds(value)

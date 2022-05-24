@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.exceptions import InvalidCoordinatesException
+from domain.exceptions import CoordinatesException
 
 
 @dataclass(frozen=True)
@@ -13,6 +13,6 @@ class Coordinates:
 
     def __validate_if_positive_values(self) -> None:
         if self.x < 0 or self.y < 0:
-            raise InvalidCoordinatesException(
+            raise CoordinatesException(
                 f'Negative values: X = {self.x}, Y = {self.y}'
             )

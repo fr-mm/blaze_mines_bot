@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-from domain.exceptions import InvalidImagePathException
+from domain.exceptions import ImagePathException
 
 
 class ImagePath:
@@ -36,7 +36,7 @@ class ImagePath:
     @staticmethod
     def __validate_path_exists(absolute_path: str) -> None:
         if not os.path.isfile(absolute_path):
-            raise InvalidImagePathException(
+            raise ImagePathException(
                 f'Path is not a file: {absolute_path}'
             )
 
@@ -44,6 +44,6 @@ class ImagePath:
     def __validate_extension(file_name: str) -> None:
         extension = file_name.split('.')[-1]
         if extension not in ImagePath.__VALID_EXTENSIONS:
-            raise InvalidImagePathException(
+            raise ImagePathException(
                 f'Invalid extension: {extension}. Valid extensions are: {ImagePath.__VALID_EXTENSIONS}'
             )

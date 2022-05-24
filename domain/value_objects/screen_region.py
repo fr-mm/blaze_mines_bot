@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.exceptions import InvalidScreenRegionException
+from domain.exceptions import ScreenRegionException
 from domain.value_objects import Coordinates
 
 
@@ -14,7 +14,7 @@ class ScreenRegion:
 
     def __validate_area_is_positive(self) -> None:
         if self.top_left.x > self.bottom_right.x or self.top_left.y > self.bottom_right.y:
-            raise InvalidScreenRegionException(
+            raise ScreenRegionException(
                 f'Negative area: '
                 f'top_left = ({self.top_left.x}, {self.top_left.y}), '
                 f'bottom_right = ({self.bottom_right.x}, {self.bottom_right.y})'

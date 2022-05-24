@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from domain.exceptions import InvalidCoordinatesException
+from domain.exceptions import CoordinatesException
 from domain.value_objects import Coordinates
 
 
@@ -15,5 +15,5 @@ class TestCoordinates(TestCase):
         x = -1
         y = 1
 
-        with self.assertRaises(InvalidCoordinatesException):
+        with self.assertRaises(CoordinatesException):
             Coordinates(x, y)

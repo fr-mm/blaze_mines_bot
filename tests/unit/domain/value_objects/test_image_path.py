@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from domain.exceptions import InvalidImagePathException
+from domain.exceptions import ImagePathException
 from domain.value_objects import ImagePath
 
 
@@ -13,11 +13,11 @@ class TestImagePath(TestCase):
     def test_init_WHEN_file_does_not_exists_THEN_raises_invalid_image_path_exception(self) -> None:
         file_name = 'fake_file_name.jpg'
 
-        with self.assertRaises(InvalidImagePathException):
+        with self.assertRaises(ImagePathException):
             ImagePath(file_name)
 
     def test_init_WHEN_invalid_extension_THEN_raises_invalid_image_path_exception(self) -> None:
         file_name = '__init__.py'
 
-        with self.assertRaises(InvalidImagePathException):
+        with self.assertRaises(ImagePathException):
             ImagePath(file_name)

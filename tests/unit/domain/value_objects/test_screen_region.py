@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from domain.exceptions import InvalidScreenRegionException
+from domain.exceptions import ScreenRegionException
 from domain.value_objects import Coordinates
 from domain.value_objects.screen_region import ScreenRegion
 
@@ -16,5 +16,5 @@ class TestScreenRegion(TestCase):
         top_left = Coordinates(10, 1)
         bottom_right = Coordinates(1, 10)
 
-        with self.assertRaises(InvalidScreenRegionException):
+        with self.assertRaises(ScreenRegionException):
             ScreenRegion(top_left=top_left, bottom_right=bottom_right)
