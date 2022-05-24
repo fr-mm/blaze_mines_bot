@@ -2,3 +2,4 @@ from domain.exceptions.domain_exception import DomainException
 from domain.exceptions.invalid_coordinates_exception import InvalidCoordinatesException
 from domain.exceptions.invalid_screen_region_exception import InvalidScreenRegionException
 from domain.exceptions.invalid_image_path_exception import InvalidImagePathException
+from domain.exceptions.invalid_seconds_exception import InvalidSecondsException
