@@ -1,4 +1,4 @@
-from domain.exceptions import DomainException
+from domain.exceptions.domain_exception import DomainException
 
 
 class MartingaleMultiplierException(DomainException):
