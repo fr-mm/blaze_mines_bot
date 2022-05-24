@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 
 from domain.exceptions import MaxMartingalesException
@@ -15,4 +16,16 @@ class MaxMartingales:
         if self.value < self.__MIN_VALUE:
             raise MaxMartingalesException(
                 f'Must be at least {self.__MIN_VALUE}'
+            )
+
+    def to_string(self) -> str:
+        return str(self.value)
+
+    @staticmethod
+    def from_string(value: str) -> MaxMartingales:
+        try:
+            return MaxMartingales(int(value))
+        except ValueError:
+            raise MaxMartingalesException(
+                f'Can not convert {value} to int'
             )

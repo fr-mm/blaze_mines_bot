@@ -15,3 +15,25 @@ class TestMaxMartingales(TestCase):
 
         with self.assertRaises(MaxMartingalesException):
             MaxMartingales(value)
+
+    def test_to_string_WHEN_called_THEN_returns_expected_string(self) -> None:
+        max_martingales = MaxMartingales(3)
+
+        result_string = max_martingales.to_string()
+
+        expected_string = '3'
+        self.assertEqual(result_string, expected_string)
+
+    def test_from_string_WHEN_string_is_valid_THEN_returns_expected_max_martingales(self) -> None:
+        input_string = '3'
+
+        result_max_martingales = MaxMartingales.from_string(input_string)
+
+        expected_max_martingales = MaxMartingales(3)
+        self.assertEqual(result_max_martingales, expected_max_martingales)
+
+    def test_from_string_WHEN_string_is_invalid_THEN_raises_max_martingales_exception(self) -> None:
+        input_string = 'foo'
+
+        with self.assertRaises(MaxMartingalesException):
+            MaxMartingales.from_string(input_string)
