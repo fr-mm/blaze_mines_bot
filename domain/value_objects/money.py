@@ -2,6 +2,7 @@ from __future__ import  annotations
 from dataclasses import dataclass
 
 from domain.exceptions import MoneyException
+from domain.value_objects.martingale_multiplier import MartingaleMultiplier
 
 
 @dataclass(frozen=True)
@@ -23,6 +24,10 @@ class Money:
 
     def sum(self, money: Money) -> Money:
         new_value = self.value + money.value
+        return Money(new_value)
+
+    def multiply(self, martingale_multiplier: MartingaleMultiplier) -> Money:
+        new_value = round(self.value * martingale_multiplier.value)
         return Money(new_value)
 
     def to_string(self) -> str:

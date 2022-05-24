@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from domain.exceptions import MoneyException
-from domain.value_objects import Money
+from domain.value_objects import Money, MartingaleMultiplier
 
 
 class TestMoney(TestCase):
@@ -25,6 +25,15 @@ class TestMoney(TestCase):
         result_money = first_money.sum(second_money)
 
         expected_money = Money(7)
+        self.assertEqual(result_money, expected_money)
+
+    def test_multiply_WHEN_martingale_multiplier_given_THEN_returns_expected_money(self) -> None:
+        martingale_multiplier = MartingaleMultiplier(2)
+        starting_money = Money(5)
+
+        result_money = starting_money.multiply(martingale_multiplier)
+
+        expected_money = Money(10)
         self.assertEqual(result_money, expected_money)
 
     def test_to_string_WHEN_value_is_four_digits_long_THEN_returns_expected_string(self) -> None:
