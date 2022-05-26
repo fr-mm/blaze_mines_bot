@@ -1,1 +1,2 @@
 opencv_python_headless==4.5.5.64
+mss==6.1.0
