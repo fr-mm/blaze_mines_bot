@@ -1,0 +1,1 @@
+from infrastructure.adapters.keyboard_typer.keyboard_typer_adapter import KeyboardTyperAdapter
