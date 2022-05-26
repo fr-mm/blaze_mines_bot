@@ -1,0 +1,1 @@
+from infrastructure.adapters.opencv_mss_screen_reader.opencv_mss_screen_reader_adapter import OpencvMssScreenReaderAdapter

@@ -1,13 +1,12 @@
 from unittest import TestCase
 
-from mockito import when, unstub, ANY
+from mockito import when, unstub
 
 from domain.exceptions import ImageNotInScreenException
 from domain.sets import ImagePathSet
-from domain.value_objects import ImagePath, ScreenRegion, Coordinates
+from domain.value_objects import ScreenRegion, Coordinates
 from domain.value_objects import image_path
-from infrastructure.adapters.opencv_mss_screen_reader.opencv_mss_screen_reader_adapter import \
-    OpencvMssScreenReaderAdapter
+from infrastructure.adapters import OpencvMssScreenReaderAdapter
 from tests.fixtures import ImagePathTestSet
 
 

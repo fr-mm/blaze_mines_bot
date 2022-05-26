@@ -1,0 +1,1 @@
+from infrastructure.adapters.tkinter_config_setter_interface.tkinter_config_setter_interface_adapter import TkinterConfigSetterInterfaceAdapter
