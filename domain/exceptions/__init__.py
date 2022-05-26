@@ -7,3 +7,4 @@ from domain.exceptions.money_exception import MoneyException
 from domain.exceptions.martingale_multiplier_exception import MartingaleMultiplierException
 from domain.exceptions.max_martingales_exception import MaxMartingalesException
 from domain.exceptions.config_exception import ConfigException
+from domain.exceptions.image_not_in_screen_exception import ImageNotInScreenException

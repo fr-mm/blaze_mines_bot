@@ -5,9 +5,9 @@ from domain.value_objects import ImagePath, ScreenRegion
 
 class ScreenReaderPort(ABC):
     @abstractmethod
-    def image_is_in_region(self, image_path: ImagePath, screen_region: ScreenRegion) -> bool:
+    def get_image_location(self, image_path: ImagePath) -> ScreenRegion:
         pass
 
     @abstractmethod
-    def get_region_of_image(self, image_path: ImagePath) -> ScreenRegion or None:
+    def image_is_in_region(self, image_path: ImagePath, screen_region: ScreenRegion) -> bool:
         pass
