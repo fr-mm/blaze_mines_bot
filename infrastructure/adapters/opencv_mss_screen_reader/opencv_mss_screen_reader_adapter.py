@@ -1,3 +1,5 @@
+from typing import Dict
+
 import cv2
 import mss
 from mss.base import MSSBase
@@ -7,10 +9,11 @@ import numpy
 from domain.exceptions import ImageNotInScreenException
 from domain.ports import ScreenReaderPort
 from domain.value_objects import ImagePath, ScreenRegion, Coordinates
+from domain.value_objects import image_path as image_path_file
 
 
 class OpencvMssScreenReaderAdapter(ScreenReaderPort):
-    __SCREEN_SHOT_NAME = 'screenshot.png'
+    __SCREENSHOT_NAME = 'screenshot.png'
     __THRESHOLD = 0.85
     __mss: MSSBase
 
@@ -24,9 +27,29 @@ class OpencvMssScreenReaderAdapter(ScreenReaderPort):
         image = self.__read_image_from_path(image_path)
         return self.__get_match_screen_region(screenshot, image)
 
+    def image_is_in_region(self, image_path: ImagePath, screen_region: ScreenRegion) -> bool:
+        mss_coordinates = self.__screen_region_to_mss_coordinates(screen_region)
+        raw_screenshot = self.__mss.grab(mss_coordinates)
+        mss.tools.to_png(
+            data=raw_screenshot.rgb,
+            size=raw_screenshot.size,
+            output=self.__SCREENSHOT_NAME
+        )
+        screenshot_path = image_path_file.ImagePath(self.__SCREENSHOT_NAME)
+        screenshot = self.__read_image_from_path(screenshot_path)
+        image = self.__read_image_from_path(image_path)
+        try:
+            self.__get_match_screen_region(
+                screenshot=screenshot,
+                template=image
+            )
+            return True
+        except ImageNotInScreenException:
+            return False
+
     def __get_full_screen_shot_path(self) -> ImagePath:
-        self.__mss.shot(output=self.__get_raw_image_path(self.__SCREEN_SHOT_NAME))
-        return ImagePath(self.__SCREEN_SHOT_NAME)
+        self.__mss.shot(output=self.__get_raw_image_path(self.__SCREENSHOT_NAME))
+        return ImagePath(self.__SCREENSHOT_NAME)
 
     @staticmethod
     def __get_raw_image_path(image_name: str) -> str:
@@ -58,5 +81,11 @@ class OpencvMssScreenReaderAdapter(ScreenReaderPort):
             )
         )
 
-    def image_is_in_region(self, image_path: ImagePath, screen_region: ScreenRegion) -> bool:
-        pass
+    @staticmethod
+    def __screen_region_to_mss_coordinates(screen_region: ScreenRegion) -> Dict[str, int]:
+        return {
+            'top': screen_region.top_left.y,
+            'left': screen_region.top_left.x,
+            'width': screen_region.bottom_right.x - screen_region.top_left.x,
+            'height': screen_region.bottom_right.y - screen_region.top_left.y
+        }

@@ -1,13 +1,20 @@
 from unittest import TestCase
 
+from mockito import when, unstub, ANY
+
 from domain.exceptions import ImageNotInScreenException
 from domain.sets import ImagePathSet
+from domain.value_objects import ImagePath, ScreenRegion, Coordinates
+from domain.value_objects import image_path
 from infrastructure.adapters.opencv_mss_screen_reader.opencv_mss_screen_reader_adapter import \
     OpencvMssScreenReaderAdapter
 from tests.fixtures import ImagePathTestSet
 
 
 class TestOpencvMssScreenReaderAdapter(TestCase):
+    def tearDown(self) -> None:
+        unstub()
+
     def test_get_image_location_WHEN_comecar_jogo_not_found_THEN_raises_image_not_in_screen_exception(self) -> None:
         template_path = ImagePathSet.COMECAR_JOGO
         screenshot_path = ImagePathTestSet.COMECAR_JOGO_NOT_FOUD
@@ -87,3 +94,37 @@ class TestOpencvMssScreenReaderAdapter(TestCase):
         self.assertLess(screen_region.top_left.y, center_y)
         self.assertGreater(screen_region.bottom_right.x, center_x)
         self.assertGreater(screen_region.bottom_right.y, center_y)
+
+    def test_image_is_in_region_WHEN_image_found_THEN_return_true(self) -> None:
+        screenshot_name = 'screenshot.png'
+        template_path = ImagePathSet.DIAMOND
+        screen_region = ScreenRegion(
+            Coordinates(1, 2),
+            Coordinates(3, 4)
+        )
+        when(image_path).ImagePath(screenshot_name).thenReturn(ImagePathSet.DIAMOND)
+        screen_reader = OpencvMssScreenReaderAdapter()
+
+        result = screen_reader.image_is_in_region(
+            image_path=template_path,
+            screen_region=screen_region
+        )
+
+        self.assertTrue(result)
+
+    def test_image_is_in_region_WHEN_image_not_found_THEN_return_false(self) -> None:
+        screenshot_name = 'screenshot.png'
+        template_path = ImagePathSet.DIAMOND
+        screen_region = ScreenRegion(
+            Coordinates(1, 2),
+            Coordinates(3, 4)
+        )
+        when(image_path).ImagePath(screenshot_name).thenReturn(ImagePathSet.BOMB)
+        screen_reader = OpencvMssScreenReaderAdapter()
+
+        result = screen_reader.image_is_in_region(
+            image_path=template_path,
+            screen_region=screen_region
+        )
+
+        self.assertFalse(result)

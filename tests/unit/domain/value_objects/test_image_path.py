@@ -6,7 +6,7 @@ from domain.value_objects import ImagePath
 
 class TestImagePath(TestCase):
     def test_init_WHEN_valid_file_name_THEN_creates_instance(self) -> None:
-        file_name = 'bomba.jpg'
+        file_name = 'bomb.jpg'
 
         ImagePath(file_name)
 
