@@ -2,6 +2,7 @@ import time
 
 from domain.aggregates import ScreenRegionAggregate, Config
 from domain.containers import RunProgramUseCaseContainer
+from domain.exceptions import QuitProgramKeyPressedException
 from domain.ports import RunProgramUseCasePort
 from domain.sets import ImagePathSet
 from domain.value_objects import Money, Profit, ImagePath
@@ -30,11 +31,14 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def execute(self, loop_forever: bool = True) -> None:
         self.__set_up()
-        if loop_forever:
-            while True:
+        try:
+            if loop_forever:
+                while True:
+                    self.__main_loop()
+            else:
                 self.__main_loop()
-        else:
-            self.__main_loop()
+        except QuitProgramKeyPressedException:
+            pass
 
     def __main_loop(self) -> None:
         self.__click_on_start_game_or_withdraw_money_button()
@@ -44,6 +48,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __set_up(self) -> None:
         self.__config = self.__container.config_setter_interface.prompt_user_config()
+        self.__listen_for_quit_program_key()
         self.__store_images_locations()
         self.__set_starting_bet()
 
@@ -142,3 +147,11 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __sleep(self) -> None:
         time.sleep(self.__config.seconds_between_actions.value)
+
+    def __listen_for_quit_program_key(self) -> None:
+        self.__container.keyboard_listener.set_callback_to_esc_key(self.__quit_program)
+
+    def __quit_program(self) -> None:
+        raise QuitProgramKeyPressedException(
+            'Quitting program'
+        )

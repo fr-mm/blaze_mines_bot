@@ -37,6 +37,7 @@ class TestRunProgramUseCase(TestCase):
 
         when(self.clicker_mock).click_on_screen_region(...)
         when(self.typer_mock).type_money(...)
+        when(self.keyboard_listener_mock).set_callback_to_esc_key(...)
         when(self.screen_reader_mock).get_image_location(...).thenReturn(self.screen_region_mock)
         when(self.screen_reader_mock).image_is_in_region(..., ...).thenReturn(True)
         when(self.config_setter_interface_mock).prompt_user_config().thenReturn(self.config)
