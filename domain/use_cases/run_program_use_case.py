@@ -28,15 +28,19 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__losses = 0
         self.__turns = 0
 
-    def execute(self) -> None:
+    def execute(self, loop_forever: bool = True) -> None:
         self.__set_up()
+        if loop_forever:
+            while True:
+                self.__main_loop()
+        else:
+            self.__main_loop()
 
     def __main_loop(self) -> None:
-        while True:
-            self.__click_on_start_game_or_withdraw_money_button()
-            self.__click_on_square()
-            self.__manage_game_result()
-            self.__reset_image_location_error()
+        self.__click_on_start_game_or_withdraw_money_button()
+        self.__click_on_square()
+        self.__manage_game_result()
+        self.__reset_image_location_error()
 
     def __set_up(self) -> None:
         self.__config = self.__container.config_setter_interface.prompt_user_config()
