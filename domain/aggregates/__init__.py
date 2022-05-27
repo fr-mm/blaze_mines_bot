@@ -1,1 +1,2 @@
 from domain.aggregates.config import Config
+from domain.aggregates.screen_region_aggregate import ScreenRegionAggregate
