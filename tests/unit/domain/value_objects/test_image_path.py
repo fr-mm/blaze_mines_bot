@@ -21,3 +21,11 @@ class TestImagePath(TestCase):
 
         with self.assertRaises(ImagePathException):
             ImagePath(file_name)
+
+    def test_file_name_WHEN_called_THEN_returns_given_file_name(self) -> None:
+        file_name = 'bomb.jpg'
+        image_path = ImagePath(file_name)
+
+        result_file_name = image_path.file_name
+
+        self.assertEqual(result_file_name, file_name)

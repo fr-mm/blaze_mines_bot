@@ -8,6 +8,7 @@ from domain.exceptions import ImagePathException
 class ImagePath:
     __STATIC_DIR = ''
     __VALID_EXTENSIONS = ['jpg', 'png']
+    __file_name: str
     value: str
 
     def __init__(self, file_name: str) -> None:
@@ -16,6 +17,11 @@ class ImagePath:
         absolute_path = self.__get_absolute_path(file_name)
         self.__validate_path_exists(absolute_path)
         self.value = absolute_path
+        self.__file_name = file_name
+
+    @property
+    def file_name(self) -> str:
+        return self.__file_name
 
     @staticmethod
     def get_static_dir_path() -> str:
