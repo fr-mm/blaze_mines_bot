@@ -2,11 +2,12 @@ import time
 
 from domain.aggregates import ScreenRegionAggregate, Config
 from domain.containers import RunProgramUseCaseContainer
+from domain.ports import RunProgramUseCasePort
 from domain.sets import ImagePathSet
 from domain.value_objects import Money, Profit, ImagePath
 
 
-class RunProgramUseCase:
+class RunProgramUseCase(RunProgramUseCasePort):
     __container: RunProgramUseCaseContainer
     __current_bet: Money
     __screen_regions: ScreenRegionAggregate

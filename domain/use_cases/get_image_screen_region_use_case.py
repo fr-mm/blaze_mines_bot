@@ -1,9 +1,10 @@
 from domain.containers.get_image_screen_region_use_case_container import GetImageScreenRegionUseCaseContainer
 from domain.exceptions import ImageNotInScreenException
+from domain.ports import GetImageScreenRegionUseCasePort
 from domain.value_objects import ImagePath, ScreenRegion
 
 
-class GetImageScreenRegionUseCase:
+class GetImageScreenRegionUseCase(GetImageScreenRegionUseCasePort):
     __container: GetImageScreenRegionUseCaseContainer
 
     def __init__(self, container: GetImageScreenRegionUseCaseContainer) -> None:
