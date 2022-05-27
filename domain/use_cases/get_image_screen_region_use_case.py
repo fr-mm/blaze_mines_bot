@@ -1,4 +1,4 @@
-from domain.containers import GetImageScreenRegionUseCaseContainer
+from domain.containers.get_image_screen_region_use_case_container import GetImageScreenRegionUseCaseContainer
 from domain.exceptions import ImageNotInScreenException
 from domain.value_objects import ImagePath, ScreenRegion
 
