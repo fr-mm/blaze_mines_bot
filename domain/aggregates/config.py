@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.value_objects import Seconds, Money, MartingaleMultiplier, MaxMartingales
+from domain.value_objects import Seconds, Money, MartingaleMultiplier, MaxMartingales, LocateImageMaxTries
 
 
 @dataclass(frozen=True)
@@ -10,3 +10,4 @@ class Config:
     martingale_multiplier: MartingaleMultiplier = MartingaleMultiplier(2.5)
     max_martingales: MaxMartingales = MaxMartingales(12)
     reset_after_max_martingales: bool = True
+    locate_image_max_tries: LocateImageMaxTries = LocateImageMaxTries(100)

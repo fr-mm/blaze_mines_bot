@@ -8,3 +8,4 @@ from domain.exceptions.martingale_multiplier_exception import MartingaleMultipli
 from domain.exceptions.max_martingales_exception import MaxMartingalesException
 from domain.exceptions.config_exception import ConfigException
 from domain.exceptions.image_not_in_screen_exception import ImageNotInScreenException
+from domain.exceptions.locate_image_max_tries_exception import LocateImageMaxTriesException

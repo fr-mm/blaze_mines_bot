@@ -5,3 +5,4 @@ from domain.value_objects.seconds import Seconds
 from domain.value_objects.money import Money
 from domain.value_objects.martingale_multiplier import MartingaleMultiplier
 from domain.value_objects.max_martingales import MaxMartingales
+from domain.value_objects.locate_image_max_tries import LocateImageMaxTries
