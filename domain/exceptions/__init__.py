@@ -9,3 +9,4 @@ from domain.exceptions.max_martingales_exception import MaxMartingalesException
 from domain.exceptions.config_exception import ConfigException
 from domain.exceptions.image_not_in_screen_exception import ImageNotInScreenException
 from domain.exceptions.locate_image_max_tries_exception import LocateImageMaxTriesException
+from domain.exceptions.check_for_image_on_square_max_tries_exception import CheckForImageOnSquareMaxTriesException
