@@ -48,15 +48,15 @@ class RunProgramUseCase:
         self.__locate_square()
 
     def __locate_start_game_button(self) -> None:
-        location = self.__container.get_image_screen_region_use_case.execute(ImagePathSet.COMECAR_JOGO)
+        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.COMECAR_JOGO)
         self.__screen_regions.start_game_or_withdraw_money = location
 
     def __locate_bet_field(self) -> None:
-        location = self.__container.get_image_screen_region_use_case.execute(ImagePathSet.MONEY_SIGN)
+        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.MONEY_SIGN)
         self.__screen_regions.bet = location
 
     def __locate_square(self) -> None:
-        location = self.__container.get_image_screen_region_use_case.execute(ImagePathSet.SQUARE)
+        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.SQUARE)
         self.__screen_regions.square = location
 
     def __set_starting_bet(self) -> None:

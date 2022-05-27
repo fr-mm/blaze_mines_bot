@@ -12,5 +12,5 @@ class RunProgramUseCaseContainer:
     keyboard_listener: KeyboardListenerPort
     screen_reader: ScreenReaderPort
     config_setter_interface: ConfigSetterInterfacePort
-    get_image_screen_region_use_case: GetImageScreenRegionUseCase
+    get_image_screen_region_service: GetImageScreenRegionUseCase
     check_for_image_on_square_max_tries: CheckForImageOnSquareMaxTries
