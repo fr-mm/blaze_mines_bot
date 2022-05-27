@@ -4,11 +4,20 @@
 block_cipher = None
 
 
+static_dir = 'domain/static/'
+images = [
+    (static_dir + 'bomb.jpg', '.'),
+    (static_dir + 'diamond.jpg', '.'),
+    (static_dir + 'money_sign.jpg', '.'),
+    (static_dir + 'square.jpg', '.'),
+    (static_dir + 'comecar_jogo.jpg', '.')
+]
+
 a = Analysis(
     ['blaze_mines_bot.py'],
     pathex=[],
     binaries=[],
-    datas=[('domain/static/exemple_full.jpg', '.'), ('domain/static/exemple_target.jpg', '.')],
+    datas=images,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
