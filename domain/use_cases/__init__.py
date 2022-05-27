@@ -1,0 +1,1 @@
+from domain.use_cases.get_image_screen_region_use_case import GetImageScreenRegionUseCase
