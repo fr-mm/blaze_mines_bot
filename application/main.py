@@ -1,5 +1,6 @@
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer, GetImageScreenRegionUseCaseContainer
+from domain.entities import Printer
 from domain.ports import ScreenReaderPort, ClickerPort, TyperPort, KeyboardListenerPort, ConfigSetterInterfacePort
 from domain.use_cases import GetImageScreenRegionUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase
@@ -44,7 +45,8 @@ class Main:
             screen_reader=self.__screen_reader,
             config_setter_interface=self.__config_setter_interface,
             get_image_screen_region_service=get_image_screen_region_service,
-            check_for_image_on_square_max_tries=CheckForImageOnSquareMaxTries(100)
+            check_for_image_on_square_max_tries=CheckForImageOnSquareMaxTries(100),
+            printer=Printer()
         )
         return RunProgramUseCase(container)
 

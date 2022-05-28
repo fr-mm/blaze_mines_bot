@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from domain.entities import Printer
 from domain.ports import ClickerPort, TyperPort, KeyboardListenerPort, ScreenReaderPort, ConfigSetterInterfacePort, \
     GetImageScreenRegionUseCasePort
 from domain.value_objects import CheckForImageOnSquareMaxTries
@@ -14,3 +15,4 @@ class RunProgramUseCaseContainer:
     config_setter_interface: ConfigSetterInterfacePort
     get_image_screen_region_service: GetImageScreenRegionUseCasePort
     check_for_image_on_square_max_tries: CheckForImageOnSquareMaxTries
+    printer: Printer

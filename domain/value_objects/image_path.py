@@ -24,10 +24,11 @@ class ImagePath:
         return self.__file_name
 
     @staticmethod
-    def get_static_dir_path() -> str:
+    def get_static_dir_path(r) -> str:
         if not ImagePath.__STATIC_DIR:
             ImagePath.__set_static_dir()
-        return ImagePath.__STATIC_DIR
+        # return ImagePath.__STATIC_DIR
+        return ImagePath.__get_absolute_path(r)
 
     @staticmethod
     def __set_static_dir() -> None:

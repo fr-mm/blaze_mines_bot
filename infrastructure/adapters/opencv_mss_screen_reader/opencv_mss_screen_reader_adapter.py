@@ -1,3 +1,4 @@
+import time
 from typing import Dict
 
 import cv2
@@ -8,6 +9,7 @@ import numpy
 
 from domain.exceptions import ImageNotInScreenException
 from domain.ports import ScreenReaderPort
+from domain.sets import ImagePathSet
 from domain.value_objects import ImagePath, ScreenRegion, Coordinates
 from domain.value_objects import image_path as image_path_file
 
@@ -53,7 +55,7 @@ class OpencvMssScreenReaderAdapter(ScreenReaderPort):
 
     @staticmethod
     def __get_raw_image_path(image_name: str) -> str:
-        return f'{ImagePath.get_static_dir_path()}/{image_name}'
+        return ImagePath.get_static_dir_path(image_name)
 
     @staticmethod
     def __read_image_from_path(image_path: ImagePath) -> numpy.ndarray:
@@ -89,3 +91,9 @@ class OpencvMssScreenReaderAdapter(ScreenReaderPort):
             'width': screen_region.bottom_right.x - screen_region.top_left.x,
             'height': screen_region.bottom_right.y - screen_region.top_left.y
         }
+
+
+if __name__ == '__main__':
+    time.sleep(1)
+    o = OpencvMssScreenReaderAdapter()
+    o.get_image_location(ImagePathSet.BOMB)

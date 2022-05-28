@@ -47,6 +47,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__reset_image_location_error()
 
     def __set_up(self) -> None:
+        self.__container.printer.print('Aguardando configurações')
         self.__config = self.__container.config_setter_interface.prompt_user_config()
         self.__listen_for_quit_program_key()
         self.__store_images_locations()
@@ -58,14 +59,17 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__locate_square()
 
     def __locate_start_game_button(self) -> None:
+        self.__container.printer.print('Localizando botão de iniciar jogo')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.COMECAR_JOGO)
         self.__screen_regions.start_game_or_withdraw_money = location
 
     def __locate_bet_field(self) -> None:
+        self.__container.printer.print('Localizando campo de aposta')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.MONEY_SIGN)
         self.__screen_regions.bet = location
 
     def __locate_square(self) -> None:
+        self.__container.printer.print('Localizando quadrado alvo')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.SQUARE)
         self.__screen_regions.square = location
 

@@ -5,6 +5,7 @@ from mockito import mock, unstub, when, verify
 
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
+from domain.entities import Printer
 from domain.ports import ClickerPort, TyperPort, KeyboardListenerPort, ScreenReaderPort, ConfigSetterInterfacePort, \
     GetImageScreenRegionUseCasePort
 from domain.use_cases import RunProgramUseCase
@@ -19,6 +20,7 @@ class TestRunProgramUseCase(TestCase):
         self.screen_reader_mock = mock(ScreenReaderPort)
         self.config_setter_interface_mock = mock(ConfigSetterInterfacePort)
         self.get_image_screen_region_service_mock = mock(GetImageScreenRegionUseCasePort)
+        self.printer_mock = mock(Printer)
         self.check_for_image_on_square_max_tries = CheckForImageOnSquareMaxTries(1)
 
         self.container = RunProgramUseCaseContainer(
@@ -28,7 +30,8 @@ class TestRunProgramUseCase(TestCase):
             screen_reader=self.screen_reader_mock,
             config_setter_interface=self.config_setter_interface_mock,
             get_image_screen_region_service=self.get_image_screen_region_service_mock,
-            check_for_image_on_square_max_tries=self.check_for_image_on_square_max_tries
+            check_for_image_on_square_max_tries=self.check_for_image_on_square_max_tries,
+            printer=self.printer_mock
         )
 
         self.screen_region_mock = mock(ScreenRegion)
@@ -42,6 +45,7 @@ class TestRunProgramUseCase(TestCase):
         when(self.screen_reader_mock).image_is_in_region(..., ...).thenReturn(True)
         when(self.config_setter_interface_mock).prompt_user_config().thenReturn(self.config)
         when(self.get_image_screen_region_service_mock).execute(...).thenReturn(self.screen_region_mock)
+        when(self.printer_mock).print(...)
         when(time).sleep(...)
 
     def tearDown(self) -> None:
