@@ -1,3 +1,5 @@
+import time
+
 from domain.containers.get_image_screen_region_use_case_container import GetImageScreenRegionUseCaseContainer
 from domain.entities import Printer
 from domain.exceptions import ImageNotInScreenException
@@ -17,6 +19,7 @@ class GetImageScreenRegionUseCase(GetImageScreenRegionUseCasePort):
                 return self.__container.screen_reader.get_image_location(image_path)
             except ImageNotInScreenException:
                 Printer.print(f'{image_path.file_name} não localizado ({try_count}) tentativas  ')
+                time.sleep(1)
                 continue
         raise ImageNotInScreenException(
             f'Could not locate {image_path.file_name} in {self.__container.max_tries.value} tries'
