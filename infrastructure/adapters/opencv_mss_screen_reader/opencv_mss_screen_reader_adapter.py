@@ -55,7 +55,7 @@ class OpencvMssScreenReaderAdapter(ScreenReaderPort):
 
     @staticmethod
     def __get_raw_image_path(image_name: str) -> str:
-        return ImagePath.get_static_dir_path(image_name)
+        return ImagePath.get_static_directory_path(image_name)
 
     @staticmethod
     def __read_image_from_path(image_path: ImagePath) -> numpy.ndarray:
