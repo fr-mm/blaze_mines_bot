@@ -6,7 +6,7 @@ from domain.value_objects import ScreenRegion, Coordinates
 
 class MouseClickerAdapter(ClickerPort):
     def click_on_coordinates(self, coordinates: Coordinates) -> None:
-        mouse.move(coordinates.x, coordinates.y)
+        mouse.move(x=coordinates.x, y=coordinates.y)
         mouse.click()
 
     def click_on_screen_region(self, screen_region: ScreenRegion) -> None:
