@@ -2,10 +2,8 @@ import cv2
 import numpy
 
 from domain.exceptions import ImageNotInScreenException
-from domain.sets import ImagePathSet
 from domain.value_objects import ImagePath, ScreenRegion, Coordinates
 from infrastructure.adapters.opencv_mss_screen_reader.value_objects import Match, MatchValue, MatchLocation, MatchSize
-from tests.fixtures import ImagePathTestSet
 
 
 class OpencvTemplateMatcher:
@@ -14,9 +12,22 @@ class OpencvTemplateMatcher:
     __COLOR = cv2.IMREAD_GRAYSCALE
 
     def locate_template_in_screenshot(self, template: ImagePath, screenshot: ImagePath) -> ScreenRegion:
-        match = self.__get_match(template, screenshot)
+        match = self.__get_match(
+            template=template,
+            screenshot=screenshot
+        )
         self.__validate_match(match)
         return self.__get_screen_region(match)
+
+    def template_is_in_screenshot(self, template: ImagePath, screenshot: ImagePath) -> bool:
+        try:
+            self.locate_template_in_screenshot(
+                template=template,
+                screenshot=screenshot
+            )
+            return True
+        except ImageNotInScreenException:
+            return False
 
     def __get_match(self, template: ImagePath, screenshot: ImagePath) -> Match:
         parsed_template = self.__read_image(template)
@@ -50,10 +61,3 @@ class OpencvTemplateMatcher:
                 y=top_left_y + match.size.height
             )
         )
-
-
-if __name__ == '__main__':
-    OpencvTemplateMatcher().locate_template_in_screenshot(
-        template=ImagePathSet.COMECAR_JOGO,
-        screenshot=ImagePathTestSet.INITIAL_SCREEN
-    )
