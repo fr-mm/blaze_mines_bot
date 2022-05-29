@@ -35,13 +35,12 @@ class TestMouseClickerAdapter(TestCase):
         expected_ordered_events = [moved_event, clicked_event]
         self.assertEqual(ordered_events, expected_ordered_events)
 
-    @staticmethod
-    def click_on_screen_region_WHEN_given_screen_region_THEN_calls_click_on_coordinates_of_center_screen_region(self) -> None:
+    def test_click_on_screen_region_WHEN_given_screen_region_THEN_calls_click_on_coordinates_of_center_screen_region(self) -> None:
         screen_region = ScreenRegion(
-            top_left=Coordinates(x=10, y=100),
-            bottom_right=Coordinates(x=30, y=300)
+            top_left=Coordinates(x=200, y=400),
+            bottom_right=Coordinates(x=600, y=700)
         )
-        center_coordinates = Coordinates(x=20, y=200)
+        center_coordinates = Coordinates(x=400, y=550)
         when(MouseClickerAdapter).click_on_coordinates(center_coordinates)
         clicker = MouseClickerAdapter()
 
