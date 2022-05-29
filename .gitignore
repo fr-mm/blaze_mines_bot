@@ -2,4 +2,4 @@
 .pytest_cache
 dist
 build
-**/screenshot.png
+**/screenshot.jpg
