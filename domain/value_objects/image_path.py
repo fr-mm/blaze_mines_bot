@@ -29,7 +29,7 @@ class ImagePath:
 
     @staticmethod
     def get_static_directory_path() -> str:
-        if not ImagePath.__static_directory:
+        if ImagePath.__static_directory is None:
             ImagePath.__set_static_directory_path()
         return ImagePath.__static_directory
 
@@ -41,9 +41,10 @@ class ImagePath:
     @staticmethod
     def __set_static_directory_path() -> None:
         if hasattr(sys, '_MEIPASS'):
-            return os.path.abspath(sys._MEIPASS)
-        static_dir = Path(static.__file__).parent
-        ImagePath.__static_directory = os.path.abspath(static_dir)
+            path = os.path.abspath(sys._MEIPASS)
+        else:
+            path = Path(static.__file__).parent
+        ImagePath.__static_directory = os.path.abspath(path)
 
     @staticmethod
     def __validate_path_exists(absolute_path: str) -> None:
