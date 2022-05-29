@@ -3,47 +3,47 @@ import sys
 from pathlib import Path
 
 from domain.exceptions import ImagePathException
+from domain import static
 
 
 class ImagePath:
-    __STATIC_DIR = ''
     __VALID_EXTENSIONS = ['jpg', 'png']
+    __static_directory: str = None
     __file_name: str
-    value: str
+    __value: str
 
     def __init__(self, file_name: str) -> None:
-        self.__set_static_dir()
         self.__validate_extension(file_name)
         absolute_path = self.__get_absolute_path(file_name)
         self.__validate_path_exists(absolute_path)
-        self.value = absolute_path
+        self.__value = absolute_path
         self.__file_name = file_name
+
+    @property
+    def value(self) -> str:
+        return self.__value
 
     @property
     def file_name(self) -> str:
         return self.__file_name
 
     @staticmethod
-    def get_static_dir_path() -> str:
-        if not ImagePath.__STATIC_DIR:
-            ImagePath.__set_static_dir()
-        return ImagePath.__STATIC_DIR
+    def get_static_directory_path() -> str:
+        if not ImagePath.__static_directory:
+            ImagePath.__set_static_directory_path()
+        return ImagePath.__static_directory
 
     @staticmethod
-    def __set_static_dir() -> None:
-        if not ImagePath.__STATIC_DIR:
-            domain_dir_name = 'domain'
-            this_dir = Path(__file__).parent
-            while not this_dir.name == domain_dir_name:
-                this_dir = this_dir.parent
-            domain_dir = this_dir
-            ImagePath.__STATIC_DIR = f'{domain_dir}\\static'
+    def __get_absolute_path(file_name: str) -> str:
+        static_directory = ImagePath.get_static_directory_path()
+        return os.path.join(static_directory, file_name)
 
     @staticmethod
-    def __get_absolute_path(relative_path: str) -> str:
+    def __set_static_directory_path() -> None:
         if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
-        return os.path.join(os.path.abspath("".join(ImagePath.__STATIC_DIR)), relative_path)
+            return os.path.abspath(sys._MEIPASS)
+        static_dir = Path(static.__file__).parent
+        ImagePath.__static_directory = os.path.abspath(static_dir)
 
     @staticmethod
     def __validate_path_exists(absolute_path: str) -> None:
