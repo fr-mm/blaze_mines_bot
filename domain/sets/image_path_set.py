@@ -7,3 +7,4 @@ class ImagePathSet:
     MONEY_SIGN = ImagePath('money_sign.jpg')
     SQUARE = ImagePath('square.jpg')
     DIAMOND = ImagePath('diamond.jpg')
+    RETIRAR = ImagePath('retirar.jpg')
