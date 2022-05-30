@@ -21,11 +21,11 @@ class TestSeconds(TestCase):
 
         result_string = seconds.to_string()
 
-        expected_string = '1,5'
+        expected_string = '1.5'
         self.assertEqual(result_string, expected_string)
 
     def test_from_string_WHEN_string_has_comma_THEN_returns_expected_seconds(self) -> None:
-        input_string = '12,34'
+        input_string = '12.34'
 
         result_seconds = Seconds.from_string(input_string)
 

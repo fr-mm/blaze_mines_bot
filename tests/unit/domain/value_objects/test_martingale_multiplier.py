@@ -21,11 +21,11 @@ class TestMartingaleMultiplier(TestCase):
 
         result_string = martingale_multiplier.to_string()
 
-        expected_string = '1,5'
+        expected_string = '1.5'
         self.assertEqual(result_string, expected_string)
 
     def test_from_string_WHEN_string_has_comma_THEN_returns_expected_martingale_multiplier(self) -> None:
-        input_string = '12,34'
+        input_string = '12.34'
 
         result_martingale_multiplier = MartingaleMultiplier.from_string(input_string)
 

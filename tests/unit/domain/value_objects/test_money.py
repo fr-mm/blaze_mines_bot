@@ -42,7 +42,7 @@ class TestMoney(TestCase):
 
         result_string = money.to_string()
 
-        expected_string = '12,34'
+        expected_string = '12.34'
         self.assertEqual(result_string, expected_string)
 
     def test_to_string_WHEN_value_is_one_digit_long_THEN_returns_expected_string(self) -> None:
@@ -51,11 +51,11 @@ class TestMoney(TestCase):
 
         result_string = money.to_string()
 
-        expected_string = '0,05'
+        expected_string = '0.05'
         self.assertEqual(result_string, expected_string)
 
     def test_from_string_WHEN_valid_input_THEN_returns_expected_money(self) -> None:
-        input_string = '0,05'
+        input_string = '0.05'
 
         result_money = Money.from_string(input_string)
 
@@ -63,25 +63,25 @@ class TestMoney(TestCase):
         self.assertEqual(result_money, expected_money)
 
     def test_from_string_WHEN_input_has_invalid_char_THEN_raises_money_exception(self) -> None:
-        input_string = '0,u5'
+        input_string = '0.u5'
 
         with self.assertRaises(MoneyException):
             Money.from_string(input_string)
 
     def test_from_string_WHEN_input_is_3_chars_long_THEN_raises_money_exception(self) -> None:
-        input_string = '0,5'
+        input_string = '0.5'
 
         with self.assertRaises(MoneyException):
             Money.from_string(input_string)
 
-    def test_from_string_WHEN_input_has_two_commas_THEN_raises_money_exception(self) -> None:
-        input_string = '0,0,5'
+    def test_from_string_WHEN_input_has_two_separators_THEN_raises_money_exception(self) -> None:
+        input_string = '0.0.5'
 
         with self.assertRaises(MoneyException):
             Money.from_string(input_string)
 
-    def test_from_string_WHEN_input_has_comma_at_wrong_index_THEN_raises_money_exception(self) -> None:
-        input_string = '00,5'
+    def test_from_string_WHEN_input_has_separator_at_wrong_index_THEN_raises_money_exception(self) -> None:
+        input_string = '00.5'
 
         with self.assertRaises(MoneyException):
             Money.from_string(input_string)

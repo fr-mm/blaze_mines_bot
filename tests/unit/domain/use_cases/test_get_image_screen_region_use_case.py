@@ -1,3 +1,4 @@
+import time
 from unittest import TestCase
 
 from mockito import mock, when, unstub, verify
@@ -14,6 +15,7 @@ class TestGetImageScreenRegionUseCase(TestCase):
         self.screen_reader_mock = mock(ScreenReaderPort)
         self.image_path_mock = mock(ImagePath)
         self.screen_region_mock = mock(ScreenRegion)
+        when(time).sleep(...)
 
     def tearDown(self) -> None:
         unstub()

@@ -27,7 +27,7 @@ class TestProfit(TestCase):
 
         result_string = profit.to_string()
 
-        expected_string = '1,23'
+        expected_string = '1.23'
         self.assertEqual(result_string, expected_string)
 
     def test_to_string_WHEN_value_has_one_digit_THEN_returns_expected_string(self) -> None:
@@ -35,7 +35,7 @@ class TestProfit(TestCase):
 
         result_string = profit.to_string()
 
-        expected_string = '0,01'
+        expected_string = '0.01'
         self.assertEqual(result_string, expected_string)
 
     def test_to_string_WHEN_value_is_positive_and_has_three_digits_THEN_returns_expected_string(self) -> None:
@@ -43,7 +43,7 @@ class TestProfit(TestCase):
 
         result_string = profit.to_string()
 
-        expected_string = '-1,23'
+        expected_string = '-1.23'
         self.assertEqual(result_string, expected_string)
 
     def test_to_string_WHEN_value_is_positive_and_has_one_digit_THEN_returns_expected_string(self) -> None:
@@ -51,5 +51,5 @@ class TestProfit(TestCase):
 
         result_string = profit.to_string()
 
-        expected_string = '-0,01'
+        expected_string = '-0.01'
         self.assertEqual(result_string, expected_string)

@@ -1,5 +1,8 @@
+from domain.enums import NumberFormatEnum
+
+
 class UserEntryFormatter:
-    COMMA = ','
+    __SEPARATOR = NumberFormatEnum.DECIMAL_SEPARATOR.value
 
     @staticmethod
     def format_as_integer(user_entry: str) -> str:
@@ -9,31 +12,31 @@ class UserEntryFormatter:
 
     @staticmethod
     def format_as_float(user_entry: str) -> str:
-        comma = UserEntryFormatter.COMMA
+        separator = UserEntryFormatter.__SEPARATOR
 
         if not user_entry:
             return '0'
-        if user_entry.startswith(comma):
+        if user_entry.startswith(separator):
             return f'0{user_entry}'
-        if user_entry.endswith(comma):
+        if user_entry.endswith(separator):
             return user_entry[:-1]
         return user_entry
 
     @staticmethod
     def format_as_money(user_entry: str) -> str:
-        comma = UserEntryFormatter.COMMA
+        separator = UserEntryFormatter.__SEPARATOR
 
         if not user_entry:
-            return '0,00'
+            return separator.join(['0', '00'])
 
-        if comma not in user_entry:
-            user_entry += comma
+        if separator not in user_entry:
+            user_entry += separator
 
-        integer_part, decimal_part = user_entry.split(comma)
+        integer_part, decimal_part = user_entry.split(separator)
 
         if not integer_part:
             integer_part = '0'
         decimal_part = decimal_part.ljust(2, '0')
 
-        return comma.join([integer_part, decimal_part])
+        return separator.join([integer_part, decimal_part])
 
