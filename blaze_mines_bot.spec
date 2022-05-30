@@ -10,7 +10,8 @@ images = [
     (static_dir + 'diamond.jpg', '.'),
     (static_dir + 'money_sign.jpg', '.'),
     (static_dir + 'square.jpg', '.'),
-    (static_dir + 'comecar_jogo.jpg', '.')
+    (static_dir + 'comecar_jogo.jpg', '.'),
+    (static_dir + 'retirar.jpg', '.')
 ]
 
 a = Analysis(

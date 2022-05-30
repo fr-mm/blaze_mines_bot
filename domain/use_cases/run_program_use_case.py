@@ -43,7 +43,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __main_loop(self) -> None:
         self.__container.printer.print(f'Iniciando loop {self.__turns}')
-        self.__click_on_start_game_or_withdraw_money_button()
+        self.__click_on_start_game_button()
         self.__click_on_square()
         self.__manage_game_result()
         self.__reset_image_location_error()
@@ -83,6 +83,12 @@ class RunProgramUseCase(RunProgramUseCasePort):
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.SQUARE)
         self.__container.printer.print(f'Quadrado alvo localizado: {location}')
         self.__screen_regions.square = location
+
+    def __locate_withdraw_button(self) -> None:
+        self.__container.printer.print('Localizando botão de retirar')
+        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.RETIRAR)
+        self.__container.printer.print(f'Botão de retirar localizado: {location}')
+        self.__screen_regions.withdraw = location
 
     def __set_starting_bet(self) -> None:
         bet = self.__config.starting_bet
@@ -124,7 +130,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
                 self.__locate_square()
 
     def __manage_win(self) -> None:
-        self.__click_on_start_game_or_withdraw_money_button()
+        self.__click_on_withdraw_button()
         self.__profit.sum(self.__current_bet)
         self.__set_starting_bet()
         self.__wins += 1
@@ -154,10 +160,15 @@ class RunProgramUseCase(RunProgramUseCasePort):
         if self.__image_location_error:
             self.__locate_bet_field()
 
-    def __click_on_start_game_or_withdraw_money_button(self) -> None:
+    def __click_on_start_game_button(self) -> None:
         self.__relocate_start_game_button_when_image_location_error()
         self.__container.clicker.click_on_screen_region(self.__screen_regions.start_game_or_withdraw_money)
         self.__sleep()
+
+    def __click_on_withdraw_button(self) -> None:
+        if not self.__screen_regions.withdraw:
+            self.__locate_withdraw_button()
+        self.__container.clicker.click_on_screen_region(self.__screen_regions.withdraw)
 
     def __reset_image_location_error(self) -> None:
         self.__image_location_error = False
