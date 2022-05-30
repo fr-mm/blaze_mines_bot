@@ -8,3 +8,4 @@ class ScreenRegionAggregate:
     start_game_or_withdraw_money: ScreenRegion = None
     bet: ScreenRegion = None
     square: ScreenRegion = None
+    withdraw: ScreenRegion = None
