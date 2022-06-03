@@ -1,8 +1,8 @@
 from typing import Callable
 
 from domain.containers import ClickOnImageUseCaseContainer
+from domain.entities import Image
 from domain.ports import ClickOnImageUseCasePort
-from domain.value_objects import ImagePath
 
 
 class ClickOnImageUseCase(ClickOnImageUseCasePort):
@@ -11,5 +11,5 @@ class ClickOnImageUseCase(ClickOnImageUseCasePort):
     def __init__(self, container: ClickOnImageUseCaseContainer) -> None:
         self.__container = container
 
-    def execute(self, image: ImagePath, store_region: Callable) -> None:
+    def execute(self, image: Image, store_region: Callable) -> None:
         pass

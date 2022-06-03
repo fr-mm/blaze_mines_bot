@@ -1,8 +1,9 @@
 import cv2
 import numpy
 
+from domain.entities import Image
 from domain.exceptions import ImageNotInScreenException
-from domain.value_objects import ImagePath, ScreenRegion, Coordinates
+from domain.value_objects import ScreenRegion, Coordinates
 from infrastructure.adapters.opencv_mss_screen_reader.value_objects import Match, MatchValue, MatchLocation, MatchSize
 
 
@@ -11,7 +12,7 @@ class OpencvTemplateMatcher:
     __METHOD = cv2.TM_SQDIFF_NORMED
     __COLOR = cv2.IMREAD_GRAYSCALE
 
-    def locate_template_in_screenshot(self, template: ImagePath, screenshot: ImagePath) -> ScreenRegion:
+    def locate_template_in_screenshot(self, template: Image, screenshot: Image) -> ScreenRegion:
         match = self.__get_match(
             template=template,
             screenshot=screenshot
@@ -19,7 +20,7 @@ class OpencvTemplateMatcher:
         self.__validate_match(match)
         return self.__get_screen_region(match)
 
-    def template_is_in_screenshot(self, template: ImagePath, screenshot: ImagePath) -> bool:
+    def template_is_in_screenshot(self, template: Image, screenshot: Image) -> bool:
         try:
             self.locate_template_in_screenshot(
                 template=template,
@@ -29,7 +30,7 @@ class OpencvTemplateMatcher:
         except ImageNotInScreenException:
             return False
 
-    def __get_match(self, template: ImagePath, screenshot: ImagePath) -> Match:
+    def __get_match(self, template: Image, screenshot: Image) -> Match:
         parsed_template = self.__read_image(template)
         parsed_screenshot = self.__read_image(screenshot)
         match_data = cv2.matchTemplate(parsed_screenshot, parsed_template, self.__METHOD)
@@ -41,8 +42,8 @@ class OpencvTemplateMatcher:
             size=MatchSize(width=size[0], height=size[1])
         )
 
-    def __read_image(self, image: ImagePath) -> numpy.ndarray:
-        return cv2.imread(image.value, self.__COLOR)
+    def __read_image(self, image: Image) -> numpy.ndarray:
+        return cv2.imread(image.path.value, self.__COLOR)
 
     def __validate_match(self, match: Match) -> None:
         if match.value.min > self.__THRESHOLD:

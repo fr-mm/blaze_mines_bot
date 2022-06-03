@@ -9,7 +9,6 @@ from domain import static
 class ImagePath:
     __VALID_EXTENSIONS = ['jpg', 'png']
     __static_directory: str = None
-    __file_name: str
     __value: str
 
     def __init__(self, file_name: str) -> None:

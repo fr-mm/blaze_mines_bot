@@ -1,1 +1,1 @@
-from domain.sets.image_path_set import ImagePathSet
+from domain.sets.image_set import ImageFactory

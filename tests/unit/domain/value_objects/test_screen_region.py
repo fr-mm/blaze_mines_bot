@@ -18,3 +18,8 @@ class TestScreenRegion(TestCase):
 
         with self.assertRaises(ScreenRegionException):
             ScreenRegion(top_left=top_left, bottom_right=bottom_right)
+
+    def test_get_full_screen_WHEN_called_THEN_returns_screen_region_with_width_greater_than_height(self) -> None:
+        screen_region = ScreenRegion.full_screen()
+
+        self.assertGreater(screen_region.bottom_right.x, screen_region.bottom_right.y)

@@ -1,15 +1,15 @@
 from unittest import TestCase
 
 from domain.exceptions import ImageNotInScreenException
-from domain.sets import ImagePathSet
+from domain.sets.image_set import ImageSet
 from infrastructure.adapters.opencv_mss_screen_reader.opencv_template_matcher import OpencvTemplateMatcher
-from tests.fixtures import ImagePathTestSet
+from tests.fixtures import ImageTestSet
 
 
 class TestOpencvTemplateMatcher(TestCase):
     def test_locate_template_in_screenshot_WHEN_comecar_jogo_found_THEN_return_screen_region_within_expected_range(self) -> None:
-        template = ImagePathSet.COMECAR_JOGO
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.START_GAME
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -27,8 +27,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertLess(screen_region.bottom_right.y, bigger_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_comecar_jogo_found_THEN_return_screen_region_bigger_than_template(self) -> None:
-        template = ImagePathSet.COMECAR_JOGO
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.START_GAME
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -46,8 +46,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertGreater(screen_region.bottom_right.y, smaller_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_money_sign_found_THEN_return_screen_region_within_expected_range(self) -> None:
-        template = ImagePathSet.MONEY_SIGN
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.MONEY_SIGN
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -65,8 +65,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertLess(screen_region.bottom_right.y, bigger_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_money_sign_found_THEN_return_screen_region_bigger_than_template(self) -> None:
-        template = ImagePathSet.MONEY_SIGN
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.MONEY_SIGN
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -84,8 +84,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertGreater(screen_region.bottom_right.y, smaller_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_square_found_THEN_return_screen_region_within_expected_range(self) -> None:
-        template = ImagePathSet.SQUARE
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.SQUARE
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -103,8 +103,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertLess(screen_region.bottom_right.y, bigger_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_square_found_THEN_return_screen_region_bigger_than_template(self) -> None:
-        template = ImagePathSet.SQUARE
-        screenshot = ImagePathTestSet.FULL_SCREENSHOT
+        template = ImageSet.SQUARE
+        screenshot = ImageTestSet.FULL_SCREENSHOT
         opencv_template_matcher = OpencvTemplateMatcher()
 
         screen_region = opencv_template_matcher.locate_template_in_screenshot(
@@ -121,8 +121,8 @@ class TestOpencvTemplateMatcher(TestCase):
         self.assertGreater(screen_region.bottom_right.y, smaller_bottom_right_y)
 
     def test_locate_template_in_screenshot_WHEN_comecar_jogo_not_found_THEN_raises_image_not_in_screen_exception(self) -> None:
-        template = ImagePathSet.COMECAR_JOGO
-        screenshot = ImagePathTestSet.COMECAR_JOGO_NOT_FOUD
+        template = ImageSet.START_GAME
+        screenshot = ImageTestSet.START_GAME_NOT_FOUND
         opencv_template_matcher = OpencvTemplateMatcher()
 
         with self.assertRaises(ImageNotInScreenException):
@@ -132,8 +132,8 @@ class TestOpencvTemplateMatcher(TestCase):
             )
 
     def test_locate_template_in_screenshot_WHEN_money_sign_not_found_THEN_raises_image_not_in_screen_exception(self) -> None:
-        template = ImagePathSet.MONEY_SIGN
-        screenshot = ImagePathTestSet.MONEY_SIGN_NOT_FOUND
+        template = ImageSet.MONEY_SIGN
+        screenshot = ImageTestSet.MONEY_SIGN_NOT_FOUND
         opencv_template_matcher = OpencvTemplateMatcher()
 
         with self.assertRaises(ImageNotInScreenException):
@@ -143,8 +143,8 @@ class TestOpencvTemplateMatcher(TestCase):
             )
 
     def test_locate_template_in_screenshot_WHEN_square_not_found_THEN_raises_image_not_in_screen_exception(self) -> None:
-        template = ImagePathSet.SQUARE
-        screenshot = ImagePathTestSet.SQUARE_NOT_FOUND
+        template = ImageSet.SQUARE
+        screenshot = ImageTestSet.SQUARE_NOT_FOUND
         opencv_template_matcher = OpencvTemplateMatcher()
 
         with self.assertRaises(ImageNotInScreenException):

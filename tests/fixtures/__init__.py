@@ -1,1 +1,1 @@
-from tests.fixtures.image_path_test_set import ImagePathTestSet
+from tests.fixtures.image_test_set import ImageTestSet

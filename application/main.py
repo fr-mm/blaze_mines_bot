@@ -3,7 +3,7 @@ from domain.containers import RunProgramUseCaseContainer, StoreImageScreenRegion
 from domain.services import PrinterService
 from domain.ports import ScreenReaderPort, ClickerPort, TyperPort, KeyboardListenerPort, ConfigSetterInterfacePort, \
     PrinterServicePort
-from domain.use_cases import StoreImageScreenRegionUseCase
+from domain.use_cases import LocateImageInScreenUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase
 from domain.value_objects import LocateImageMaxTries, CheckForImageOnSquareMaxTries
 from infrastructure.adapters import MouseClickerAdapter, KeyboardTyperAdapter, KeyboardKeyboardListenerAdapter, \
@@ -33,13 +33,13 @@ class Main:
     def run(self) -> None:
         get_image_screen_region_service = self.__build_get_image_screen_region_service()
         run_program_service = self.__build_run_program_service(
-            get_image_screen_region_service=get_image_screen_region_service
+            locate_image_in_screen_service=get_image_screen_region_service
         )
         run_program_service.execute()
 
     def __build_run_program_service(
             self,
-            get_image_screen_region_service: StoreImageScreenRegionUseCase
+            locate_image_in_screen_service: LocateImageInScreenUseCase
     ) -> RunProgramUseCase:
         container = RunProgramUseCaseContainer(
             clicker=self.__clicker,
@@ -47,15 +47,15 @@ class Main:
             keyboard_listener=self.__keyboard_listener,
             screen_reader=self.__screen_reader,
             config_setter_interface=self.__config_setter_interface,
-            get_image_screen_region_service=get_image_screen_region_service,
+            locate_image_in_screen_service=locate_image_in_screen_service,
             check_for_image_on_square_max_tries=CheckForImageOnSquareMaxTries(100),
             printer=PrinterService()
         )
         return RunProgramUseCase(container)
 
-    def __build_get_image_screen_region_service(self) -> StoreImageScreenRegionUseCase:
+    def __build_get_image_screen_region_service(self) -> LocateImageInScreenUseCase:
         container = StoreImageScreenRegionUseCaseContainer(
             screen_reader=self.__screen_reader,
             printer=self.__printer
         )
-        return StoreImageScreenRegionUseCase(container)
+        return LocateImageInScreenUseCase(container)

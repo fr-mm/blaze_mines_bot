@@ -25,10 +25,10 @@ class TestMssScreenshooter(TestCase):
         image_path = mss_screenshooter.get_path()
         self.assertTrue(os.path.isfile(image_path))
 
-    def test_take_full_screenshot_WHEN_called_THEN_returns_image_path_with_expected_value(self) -> None:
+    def test_take_full_screenshot_WHEN_called_THEN_returns_expected_image_with_expected_path_value(self) -> None:
         mss_screenshooter = MssScreenshooter()
 
-        image_path = mss_screenshooter.take_full_screenshot()
+        image = mss_screenshooter.take_full_screenshot()
 
         expected_value = mss_screenshooter.get_path()
-        self.assertEqual(image_path.value, expected_value)
+        self.assertEqual(image.path.value, expected_value)

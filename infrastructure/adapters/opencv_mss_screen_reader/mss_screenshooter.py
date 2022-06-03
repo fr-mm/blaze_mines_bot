@@ -6,7 +6,8 @@ import mss
 import mss.tools
 from mss.base import MSSBase
 
-from domain.value_objects import ImagePath, ScreenRegion
+from domain.entities import Image
+from domain.value_objects import ImagePath, ScreenRegion, ImageName
 
 
 class MssScreenshooter:
@@ -18,15 +19,23 @@ class MssScreenshooter:
         self.__mss = mss.mss()
         self.__path = MssScreenshooter.get_path()
 
-    def take_full_screenshot(self) -> ImagePath:
+    def take_full_screenshot(self) -> Image:
         self.__mss.shot(output=self.__path)
-        return ImagePath(self.__SCREENSHOT_FILE_NAME)
+        return Image(
+            name=ImageName('screenshot'),
+            path=ImagePath(self.__SCREENSHOT_FILE_NAME),
+            location=ScreenRegion.full_screen()
+        )
 
-    def take_screenshot_from_region(self, screen_region: ScreenRegion) -> ImagePath:
+    def take_screenshot_from_region(self, screen_region: ScreenRegion) -> Image:
         mss_coordinates = self.__screen_region_to_mss_coordinates(screen_region)
         screenshot = self.__mss.grab(mss_coordinates)
         mss.tools.to_png(screenshot.rgb, size=screenshot.size, output=self.__path)
-        return ImagePath(self.__SCREENSHOT_FILE_NAME)
+        return Image(
+            name=ImageName('screenshot'),
+            path=ImagePath(self.__SCREENSHOT_FILE_NAME),
+            location=screen_region
+        )
 
     @staticmethod
     def get_path() -> str:

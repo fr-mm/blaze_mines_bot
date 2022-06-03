@@ -1,17 +1,17 @@
 import time
 
-from domain.aggregates import ScreenRegionAggregate, Config
+from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
+from domain.entities import Image
 from domain.exceptions import QuitProgramKeyPressedException
 from domain.ports import RunProgramUseCasePort
-from domain.sets import ImagePathSet
-from domain.value_objects import Money, Profit, ImagePath
+from domain.sets.image_set import ImageSet
+from domain.value_objects import Money, Profit
 
 
 class RunProgramUseCase(RunProgramUseCasePort):
     __container: RunProgramUseCaseContainer
     __current_bet: Money
-    __screen_regions: ScreenRegionAggregate
     __profit: Profit
     __config: Config
     __current_martingale: int
@@ -22,7 +22,6 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __init__(self, container: RunProgramUseCaseContainer) -> None:
         self.__container = container
-        self.__screen_regions = ScreenRegionAggregate()
         self.__profit = Profit(0)
         self.__image_location_error = False
         self.__wins = 0
@@ -67,27 +66,23 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__locate_square()
 
     def __locate_start_game_button(self) -> None:
-        self.__container.get_image_screen_region_service.execute(
-            image=ImagePathSet.COMECAR_JOGO,
-            store_region=self.__screen_regions.set_start_game
+        self.__container.locate_image_in_screen_service.execute(
+            image=ImageSet.START_GAME
         )
 
     def __locate_bet_field(self) -> None:
-        self.__container.get_image_screen_region_service.execute(
-            image=ImagePathSet.MONEY_SIGN,
-            store_region=self.__screen_regions.set_bet_field
+        self.__container.locate_image_in_screen_service.execute(
+            image=ImageSet.MONEY_SIGN
         )
 
     def __locate_square(self) -> None:
-        self.__container.get_image_screen_region_service.execute(
-            image=ImagePathSet.SQUARE,
-            store_region=self.__screen_regions.set_square
+        self.__container.locate_image_in_screen_service.execute(
+            image=ImageSet.SQUARE
         )
 
     def __locate_withdraw_button(self) -> None:
-        self.__container.get_image_screen_region_service.execute(
-            image=ImagePathSet.RETIRAR,
-            store_region=self.__screen_regions.set_withdraw_money
+        self.__container.locate_image_in_screen_service.execute(
+            image=ImageSet.WITHDRAW_MONEY
         )
 
     def __set_starting_bet(self) -> None:
@@ -97,25 +92,25 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __set_bet(self, money: Money) -> None:
         self.__relocate_bet_field_when_image_location_error()
-        self.__container.clicker.click_on_screen_region(self.__screen_regions.bet_field)
+        self.__container.clicker.click_on_screen_region(ImageSet.MONEY_SIGN.location)
         self.__container.typer.type_money(money)
         self.__current_bet = money
         self.__sleep()
 
     def __click_on_square(self) -> None:
-        self.__container.clicker.click_on_screen_region(self.__screen_regions.square)
+        self.__container.clicker.click_on_screen_region(ImageSet.SQUARE.location)
         self.__sleep()
 
     def __diamond_appeared(self) -> bool:
-        return self.__image_appeared_on_square(ImagePathSet.DIAMOND)
+        return self.__image_appeared_on_square(ImageSet.DIAMOND.location)
 
     def __bomb_appeared(self) -> bool:
-        return self.__image_appeared_on_square(ImagePathSet.BOMB)
+        return self.__image_appeared_on_square(ImageSet.BOMB.location)
 
-    def __image_appeared_on_square(self, image_path: ImagePath) -> bool:
+    def __image_appeared_on_square(self, image: Image) -> bool:
         return self.__container.screen_reader.image_is_in_region(
-            image_path=image_path,
-            screen_region=self.__screen_regions.square
+            image=image,
+            screen_region=ImageSet.SQUARE.location
         )
 
     def __manage_game_result(self) -> None:
