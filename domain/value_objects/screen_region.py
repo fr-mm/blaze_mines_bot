@@ -19,3 +19,6 @@ class ScreenRegion:
                 f'top_left = ({self.top_left.x}, {self.top_left.y}), '
                 f'bottom_right = ({self.bottom_right.x}, {self.bottom_right.y})'
             )
+
+    def to_string(self) -> str:
+        return f'(({self.top_left.x}, {self.top_left.y}), ({self.bottom_right.x}, {self.bottom_right.y}))'
