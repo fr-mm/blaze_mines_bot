@@ -70,25 +70,25 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__container.printer.print('Localizando botão de iniciar jogo')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.COMECAR_JOGO)
         self.__container.printer.print(f'Botão de iniciar jogo localizado: {location}')
-        self.__screen_regions.start_game_or_withdraw_money = location
+        self.__screen_regions.set_start_game(location)
 
     def __locate_bet_field(self) -> None:
         self.__container.printer.print('Localizando campo de aposta')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.MONEY_SIGN)
         self.__container.printer.print(f'Campo de aposta localizado: {location}')
-        self.__screen_regions.bet = location
+        self.__screen_regions.set_bet_field(location)
 
     def __locate_square(self) -> None:
         self.__container.printer.print('Localizando quadrado alvo')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.SQUARE)
         self.__container.printer.print(f'Quadrado alvo localizado: {location}')
-        self.__screen_regions.square = location
+        self.__screen_regions.set_square(location)
 
     def __locate_withdraw_button(self) -> None:
         self.__container.printer.print('Localizando botão de retirar')
         location = self.__container.get_image_screen_region_service.execute(ImagePathSet.RETIRAR)
         self.__container.printer.print(f'Botão de retirar localizado: {location}')
-        self.__screen_regions.withdraw = location
+        self.__screen_regions.set_withdraw_money(location)
 
     def __set_starting_bet(self) -> None:
         bet = self.__config.starting_bet
@@ -97,7 +97,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __set_bet(self, money: Money) -> None:
         self.__relocate_bet_field_when_image_location_error()
-        self.__container.clicker.click_on_screen_region(self.__screen_regions.bet)
+        self.__container.clicker.click_on_screen_region(self.__screen_regions.bet_field)
         self.__container.typer.type_money(money)
         self.__current_bet = money
         self.__sleep()
@@ -162,13 +162,13 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __click_on_start_game_button(self) -> None:
         self.__relocate_start_game_button_when_image_location_error()
-        self.__container.clicker.click_on_screen_region(self.__screen_regions.start_game_or_withdraw_money)
+        self.__container.clicker.click_on_screen_region(self.__screen_regions.start_game)
         self.__sleep()
 
     def __click_on_withdraw_button(self) -> None:
-        if not self.__screen_regions.withdraw:
+        if not self.__screen_regions.withdraw_money:
             self.__locate_withdraw_button()
-        self.__container.clicker.click_on_screen_region(self.__screen_regions.withdraw)
+        self.__container.clicker.click_on_screen_region(self.__screen_regions.withdraw_money)
 
     def __reset_image_location_error(self) -> None:
         self.__image_location_error = False
