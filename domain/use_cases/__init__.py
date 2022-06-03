@@ -1,2 +1,2 @@
-from domain.use_cases.get_image_screen_region_use_case import GetImageScreenRegionUseCase
+from domain.use_cases.store_image_screen_region_use_case import StoreImageScreenRegionUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase

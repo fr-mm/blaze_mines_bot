@@ -1,9 +1,9 @@
 from domain.aggregates import Config
-from domain.containers import RunProgramUseCaseContainer, GetImageScreenRegionUseCaseContainer
+from domain.containers import RunProgramUseCaseContainer, StoreImageScreenRegionUseCaseContainer
 from domain.services import PrinterService
 from domain.ports import ScreenReaderPort, ClickerPort, TyperPort, KeyboardListenerPort, ConfigSetterInterfacePort, \
     PrinterServicePort
-from domain.use_cases import GetImageScreenRegionUseCase
+from domain.use_cases import StoreImageScreenRegionUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase
 from domain.value_objects import LocateImageMaxTries, CheckForImageOnSquareMaxTries
 from infrastructure.adapters import MouseClickerAdapter, KeyboardTyperAdapter, KeyboardKeyboardListenerAdapter, \
@@ -39,7 +39,7 @@ class Main:
 
     def __build_run_program_service(
             self,
-            get_image_screen_region_service: GetImageScreenRegionUseCase
+            get_image_screen_region_service: StoreImageScreenRegionUseCase
     ) -> RunProgramUseCase:
         container = RunProgramUseCaseContainer(
             clicker=self.__clicker,
@@ -53,10 +53,9 @@ class Main:
         )
         return RunProgramUseCase(container)
 
-    def __build_get_image_screen_region_service(self) -> GetImageScreenRegionUseCase:
-        container = GetImageScreenRegionUseCaseContainer(
+    def __build_get_image_screen_region_service(self) -> StoreImageScreenRegionUseCase:
+        container = StoreImageScreenRegionUseCaseContainer(
             screen_reader=self.__screen_reader,
-            max_tries=LocateImageMaxTries(100),
             printer=self.__printer
         )
-        return GetImageScreenRegionUseCase(container)
+        return StoreImageScreenRegionUseCase(container)

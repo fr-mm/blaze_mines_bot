@@ -30,7 +30,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__turns = 0
 
     def execute(self, loop_forever: bool = True) -> None:
-        self.__container.printer.print('Starting...')
+        self.__container.printer.print_line('Starting...')
         self.__set_up()
         try:
             if loop_forever:
@@ -42,7 +42,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
             quit()
 
     def __main_loop(self) -> None:
-        self.__container.printer.print(f'Iniciando loop {self.__turns}')
+        self.__container.printer.print_line(f'Iniciando loop {self.__turns}')
         self.__click_on_start_game_button()
         self.__click_on_square()
         self.__manage_game_result()
@@ -55,7 +55,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__set_starting_bet()
 
     def __prompt_user_config(self) -> None:
-        self.__container.printer.print('Aguardando configurações')
+        self.__container.printer.print_line('Aguardando configurações')
         config = self.__container.config_setter_interface.prompt_user_config()
         if not config:
             quit()
@@ -67,32 +67,32 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__locate_square()
 
     def __locate_start_game_button(self) -> None:
-        self.__container.printer.print('Localizando botão de iniciar jogo')
-        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.COMECAR_JOGO)
-        self.__container.printer.print(f'Botão de iniciar jogo localizado: {location}')
-        self.__screen_regions.set_start_game(location)
+        self.__container.get_image_screen_region_service.execute(
+            image=ImagePathSet.COMECAR_JOGO,
+            store_region=self.__screen_regions.set_start_game
+        )
 
     def __locate_bet_field(self) -> None:
-        self.__container.printer.print('Localizando campo de aposta')
-        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.MONEY_SIGN)
-        self.__container.printer.print(f'Campo de aposta localizado: {location}')
-        self.__screen_regions.set_bet_field(location)
+        self.__container.get_image_screen_region_service.execute(
+            image=ImagePathSet.MONEY_SIGN,
+            store_region=self.__screen_regions.set_bet_field
+        )
 
     def __locate_square(self) -> None:
-        self.__container.printer.print('Localizando quadrado alvo')
-        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.SQUARE)
-        self.__container.printer.print(f'Quadrado alvo localizado: {location}')
-        self.__screen_regions.set_square(location)
+        self.__container.get_image_screen_region_service.execute(
+            image=ImagePathSet.SQUARE,
+            store_region=self.__screen_regions.set_square
+        )
 
     def __locate_withdraw_button(self) -> None:
-        self.__container.printer.print('Localizando botão de retirar')
-        location = self.__container.get_image_screen_region_service.execute(ImagePathSet.RETIRAR)
-        self.__container.printer.print(f'Botão de retirar localizado: {location}')
-        self.__screen_regions.set_withdraw_money(location)
+        self.__container.get_image_screen_region_service.execute(
+            image=ImagePathSet.RETIRAR,
+            store_region=self.__screen_regions.set_withdraw_money
+        )
 
     def __set_starting_bet(self) -> None:
         bet = self.__config.starting_bet
-        self.__container.printer.print(f'Configurando aposta inicial: R${bet.to_string()}')
+        self.__container.printer.print_line(f'Configurando aposta inicial: R${bet.to_string()}')
         self.__set_bet(bet)
 
     def __set_bet(self, money: Money) -> None:
@@ -177,7 +177,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         time.sleep(self.__config.seconds_between_actions.value)
 
     def __listen_for_quit_program_key(self) -> None:
-        self.__container.printer.print('Setting shortcut for quit: "esc"')
+        self.__container.printer.print_line('Setting shortcut for quit: "esc"')
         self.__container.keyboard_listener.set_callback_to_esc_key(self.__quit_program)
 
     def __quit_program(self) -> None:
