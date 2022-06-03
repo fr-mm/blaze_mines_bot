@@ -6,3 +6,4 @@ from domain.ports.keyboard_listener_port import KeyboardListenerPort
 from domain.ports.store_image_screen_region_use_case_port import StoreImageScreenRegionUseCasePort
 from domain.ports.run_program_use_case_port import RunProgramUseCasePort
 from domain.ports.printer_service_port import PrinterServicePort
+from domain.ports.click_on_image_use_case_port import ClickOnImageUseCasePort

@@ -1,2 +1,3 @@
 from domain.containers.run_program_use_case_container import RunProgramUseCaseContainer
 from domain.containers.store_image_screen_region_use_case_container import StoreImageScreenRegionUseCaseContainer
+from domain.containers.click_on_image_use_case_container import ClickOnImageUseCaseContainer

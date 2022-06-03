@@ -30,7 +30,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__turns = 0
 
     def execute(self, loop_forever: bool = True) -> None:
-        self.__container.printer.print_line('Starting...')
+        self.__container.printer.print_line('Iniciando...')
         self.__set_up()
         try:
             if loop_forever:
