@@ -1,2 +1,3 @@
 from domain.use_cases.locate_image_in_screen_use_case import LocateImageInScreenUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase
+from domain.use_cases.image_is_in_region_use_case import ImageIsInRegionUseCase

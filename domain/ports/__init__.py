@@ -7,3 +7,4 @@ from domain.ports.locate_image_in_screen_use_case_port import LocateImageInScree
 from domain.ports.run_program_use_case_port import RunProgramUseCasePort
 from domain.ports.printer_service_port import PrinterServicePort
 from domain.ports.click_on_image_use_case_port import ClickOnImageUseCasePort
+from domain.ports.image_is_in_region_use_case_port import ImageIsInRegionUseCasePort
