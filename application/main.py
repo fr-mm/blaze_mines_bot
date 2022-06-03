@@ -1,7 +1,8 @@
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer, GetImageScreenRegionUseCaseContainer
-from domain.entities import Printer
-from domain.ports import ScreenReaderPort, ClickerPort, TyperPort, KeyboardListenerPort, ConfigSetterInterfacePort
+from domain.services import PrinterService
+from domain.ports import ScreenReaderPort, ClickerPort, TyperPort, KeyboardListenerPort, ConfigSetterInterfacePort, \
+    PrinterServicePort
 from domain.use_cases import GetImageScreenRegionUseCase
 from domain.use_cases.run_program_use_case import RunProgramUseCase
 from domain.value_objects import LocateImageMaxTries, CheckForImageOnSquareMaxTries
@@ -15,6 +16,7 @@ class Main:
     __keyboard_listener: KeyboardListenerPort
     __screen_reader: ScreenReaderPort
     __config_setter_interface: ConfigSetterInterfacePort
+    __printer: PrinterServicePort
 
     def __init__(self) -> None:
         self.__clicker = MouseClickerAdapter()
@@ -26,6 +28,7 @@ class Main:
         self.__config_setter_interface = TkinterConfigSetterInterfaceAdapter(
             default_config=Config()
         )
+        self.__printer = PrinterService()
 
     def run(self) -> None:
         get_image_screen_region_service = self.__build_get_image_screen_region_service()
@@ -46,13 +49,14 @@ class Main:
             config_setter_interface=self.__config_setter_interface,
             get_image_screen_region_service=get_image_screen_region_service,
             check_for_image_on_square_max_tries=CheckForImageOnSquareMaxTries(100),
-            printer=Printer()
+            printer=PrinterService()
         )
         return RunProgramUseCase(container)
 
     def __build_get_image_screen_region_service(self) -> GetImageScreenRegionUseCase:
         container = GetImageScreenRegionUseCaseContainer(
             screen_reader=self.__screen_reader,
-            max_tries=LocateImageMaxTries(100)
+            max_tries=LocateImageMaxTries(100),
+            printer=self.__printer
         )
         return GetImageScreenRegionUseCase(container)

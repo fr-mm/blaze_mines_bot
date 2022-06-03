@@ -5,7 +5,7 @@ from mockito import mock, unstub, when, verify
 
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
-from domain.entities import Printer
+from domain.services import PrinterService
 from domain.ports import ClickerPort, TyperPort, KeyboardListenerPort, ScreenReaderPort, ConfigSetterInterfacePort, \
     GetImageScreenRegionUseCasePort
 from domain.use_cases import RunProgramUseCase
@@ -20,7 +20,7 @@ class TestRunProgramUseCase(TestCase):
         self.screen_reader_mock = mock(ScreenReaderPort)
         self.config_setter_interface_mock = mock(ConfigSetterInterfacePort)
         self.get_image_screen_region_service_mock = mock(GetImageScreenRegionUseCasePort)
-        self.printer_mock = mock(Printer)
+        self.printer_mock = mock(PrinterService)
         self.check_for_image_on_square_max_tries = CheckForImageOnSquareMaxTries(1)
 
         self.container = RunProgramUseCaseContainer(
