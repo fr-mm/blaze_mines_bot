@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 
-from domain.ports import ClickerPort, LocateImageInScreenUseCasePort
+from domain.ports import ClickerPort, LocateImageInScreenUseCasePort, ImageIsInRegionUseCasePort
 
 
 @dataclass(frozen=True)
 class ClickOnImageUseCaseContainer:
     clicker: ClickerPort
-    store_image_screen_region_service: LocateImageInScreenUseCasePort
+    locate_image_in_screen_service: LocateImageInScreenUseCasePort
+    image_is_in_region_service: ImageIsInRegionUseCasePort

@@ -6,6 +6,6 @@ from domain.entities import Image
 
 class ClickOnImageUseCasePort(ABC):
     @abstractmethod
-    def execute(self, image: Image, store_region: Callable) -> None:
+    def execute(self, image: Image) -> None:
         pass
 

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from mockito import mock, when, verify
+from mockito import mock, when, verify, unstub
 
 from domain.containers import ImageIsInRegionUseCaseContainer
 from domain.entities import Image
@@ -19,6 +19,9 @@ class TestImageIsInRegionUseCase(TestCase):
         )
         self.image = mock(Image)
         self.screen_region = mock(ScreenRegion)
+
+    def tearDown(self) -> None:
+        unstub()
 
     def test_execute_WHEN_screen_region_given_THEN_calls_screen_reader_image_is_in_region_with_given_image_and_region(self) -> None:
         when(self.screen_reader).image_is_in_region(
