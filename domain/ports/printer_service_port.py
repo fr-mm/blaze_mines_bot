@@ -1,6 +1,15 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class PrinterServicePort(ABC):
-    def print(self, message: str) -> None :
+    @abstractmethod
+    def print_line(self, message: str) -> None :
+        pass
+
+    @abstractmethod
+    def print_open_line(self, message: str) -> None:
+        pass
+
+    @abstractmethod
+    def close_line(self) -> None:
         pass
