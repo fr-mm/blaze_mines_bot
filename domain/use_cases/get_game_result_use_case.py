@@ -3,6 +3,7 @@ import time
 from domain.containers import GetGameResultUseCaseContainer
 from domain.entities import Image
 from domain.enums import GameResultEnum
+from domain.exceptions import CheckForImageOnSquareMaxTriesException
 from domain.ports import GetGameResultUseCasePort
 from domain.sets.image_set import ImageSet
 from domain.value_objects import ScreenRegion, Seconds
@@ -32,6 +33,9 @@ class GetGameResultUseCase(GetGameResultUseCasePort):
             else:
                 self.__locate_diamond_or_bomb()
                 time.sleep(self.__seconds_between_tries.value)
+        raise CheckForImageOnSquareMaxTriesException(
+            f'{ImageSet.DIAMOND.name.value} ou {ImageSet.BOMB.name.value} não encontrados em {self.__max_tries} tentativas'
+        )
 
     def __image_is_in_square_region(self, image: Image) -> bool:
         return self.__container.image_is_in_region_service.execute(
