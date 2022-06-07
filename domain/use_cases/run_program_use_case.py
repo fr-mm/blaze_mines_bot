@@ -87,6 +87,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__current_bet = money
 
     def __manage_game_result(self) -> None:
+        self.__container.printer.print_line('Analizando resultado')
         game_result = self.__container.get_game_result_service.execute()
         if game_result == GameResultEnum.WIN:
             self.__manage_win()
@@ -96,6 +97,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
             raise UnexpectedGameResultException()
 
     def __manage_win(self) -> None:
+        self.__container.printer.print_line('Processando vitória')
         self.__click_on_withdraw_money()
         self.__profit.sum(self.__current_bet)
         self.__set_starting_bet()
@@ -103,16 +105,29 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__turns += 1
 
     def __manage_loss(self) -> None:
+        self.__container.printer.print_line('Processando derrota')
         if self.__current_martingale <= self.__config.max_martingales.value:
             self.__current_martingale += 1
+            self.__container.printer.print_line(f'Aplicando {self.__current_martingale}° Martingale')
             self.__multiply_bet_by_martingale()
             self.__turns += 1
+            self.__print_current_profit()
         else:
+            self.__container.printer.print_line(f'Máximo de {self.__config.max_martingales.value} excedido. Reconfigurando aposta inicial')
             self.__current_martingale = 0
             self.__profit.subtract(self.__current_bet)
+            self.__print_current_profit()
             self.__set_starting_bet()
             self.__losses += 1
             self.__turns += 1
+
+    def __print_current_profit(self) -> None:
+        if self.__profit.value < 0:
+            absolute_profit = self.__profit.to_string().replace('-', '')
+            formatted_profit = f'-R${absolute_profit}'
+        else:
+            formatted_profit = f'R#{self.__profit.to_string()}'
+        self.__container.printer.print_line(f'Lucro atual: {formatted_profit}')
 
     def __multiply_bet_by_martingale(self) -> None:
         bet = self.__current_bet.multiply(self.__config.martingale_multiplier)
