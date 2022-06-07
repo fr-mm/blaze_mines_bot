@@ -3,12 +3,12 @@ from unittest import TestCase
 
 from mockito import mock, when, unstub, verify
 
-from domain.containers import StoreImageScreenRegionUseCaseContainer
+from domain.containers import LocateImageInScreenUseCaseContainer
 from domain.entities import Image
 from domain.exceptions import ImageNotInScreenException
 from domain.ports import ScreenReaderPort, PrinterServicePort
 from domain.use_cases import LocateImageInScreenUseCase
-from domain.value_objects import ImagePath, ScreenRegion
+from domain.value_objects import ImagePath, ScreenRegion, ImageName
 
 
 class TestLocateImageInScreenUseCase(TestCase):
@@ -20,7 +20,7 @@ class TestLocateImageInScreenUseCase(TestCase):
 
         self.screen_reader_mock = mock(ScreenReaderPort)
 
-        self.container = StoreImageScreenRegionUseCaseContainer(
+        self.container = LocateImageInScreenUseCaseContainer(
             screen_reader=self.screen_reader_mock,
             printer=self.printer_mock
         )
@@ -29,7 +29,8 @@ class TestLocateImageInScreenUseCase(TestCase):
         self.image_path_mock.file_name = 'fake_file_name.py'
 
         self.image_mock = mock(Image)
-        self.image_mock.name = 'image_name'
+        self.image_mock.name = mock(ImageName)
+        self.image_mock.name.value = 'image name'
         self.image_mock.path = self.image_path_mock
 
         self.screen_region_mock = mock(ScreenRegion)

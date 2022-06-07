@@ -7,5 +7,4 @@ from domain.value_objects.martingale_multiplier import MartingaleMultiplier
 from domain.value_objects.max_martingales import MaxMartingales
 from domain.value_objects.locate_image_max_tries import LocateImageMaxTries
 from domain.value_objects.profit import Profit
-from domain.value_objects.check_for_image_on_square_max_tries import CheckForImageOnSquareMaxTries
 from domain.value_objects.image_name import ImageName

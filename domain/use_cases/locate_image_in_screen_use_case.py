@@ -1,19 +1,19 @@
 import time
 
-from domain.containers.store_image_screen_region_use_case_container import StoreImageScreenRegionUseCaseContainer
+from domain.containers.locate_image_in_screen_use_case_container import LocateImageInScreenUseCaseContainer
 from domain.entities import Image
 from domain.exceptions import ImageNotInScreenException
 from domain.ports import LocateImageInScreenUseCasePort
 
 
 class LocateImageInScreenUseCase(LocateImageInScreenUseCasePort):
-    __container: StoreImageScreenRegionUseCaseContainer
+    __container: LocateImageInScreenUseCaseContainer
     __max_tries: int
     __seconds_between_tries: float
 
     def __init__(
             self,
-            container: StoreImageScreenRegionUseCaseContainer,
+            container: LocateImageInScreenUseCaseContainer,
             max_tries: int = 200,
             seconds_between_tries: float = 0.6
     ) -> None:

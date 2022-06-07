@@ -8,8 +8,8 @@ from domain.containers import RunProgramUseCaseContainer
 from domain.services import PrinterService
 from domain.ports import ClickerPort, TyperPort, KeyboardListenerPort, ScreenReaderPort, ConfigSetterInterfacePort, \
     LocateImageInScreenUseCasePort
-from domain.use_cases import RunProgramUseCase
-from domain.value_objects import CheckForImageOnSquareMaxTries, ScreenRegion, ImagePath
+from domain.use_cases import RunProgramUseCase, ClickOnImageUseCase
+from domain.value_objects import ScreenRegion, ImagePath
 
 
 class TestRunProgramUseCase(TestCase):
@@ -21,7 +21,7 @@ class TestRunProgramUseCase(TestCase):
         self.config_setter_interface_mock = mock(ConfigSetterInterfacePort)
         self.locate_image_in_screen_service_mock = mock(LocateImageInScreenUseCasePort)
         self.printer_mock = mock(PrinterService)
-        self.check_for_image_on_square_max_tries = CheckForImageOnSquareMaxTries(1)
+        self.click_on_image_service = mock(ClickOnImageUseCase)
 
         self.container = RunProgramUseCaseContainer(
             clicker=self.clicker_mock,
@@ -30,8 +30,8 @@ class TestRunProgramUseCase(TestCase):
             screen_reader=self.screen_reader_mock,
             config_setter_interface=self.config_setter_interface_mock,
             locate_image_in_screen_service=self.locate_image_in_screen_service_mock,
-            check_for_image_on_square_max_tries=self.check_for_image_on_square_max_tries,
-            printer=self.printer_mock
+            printer=self.printer_mock,
+            click_on_image_service=self.click_on_image_service
         )
 
         self.screen_region_mock = mock(ScreenRegion)
@@ -46,6 +46,7 @@ class TestRunProgramUseCase(TestCase):
         when(self.config_setter_interface_mock).prompt_user_config().thenReturn(self.config)
         when(self.locate_image_in_screen_service_mock).execute(...)
         when(self.printer_mock).print_line(...)
+        when(self.click_on_image_service).execute(...)
         when(time).sleep(...)
 
     def tearDown(self) -> None:

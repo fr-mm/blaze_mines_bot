@@ -4,6 +4,6 @@ from domain.ports import ScreenReaderPort, PrinterServicePort
 
 
 @dataclass(frozen=True)
-class StoreImageScreenRegionUseCaseContainer:
+class LocateImageInScreenUseCaseContainer:
     screen_reader: ScreenReaderPort
     printer: PrinterServicePort
