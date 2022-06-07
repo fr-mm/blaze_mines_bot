@@ -1,7 +1,7 @@
 import time
 from unittest import TestCase
 
-from mockito import mock, unstub, when, verify
+from mockito import mock, unstub, when
 
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
