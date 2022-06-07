@@ -27,19 +27,19 @@ class LocateImageInScreenUseCase(LocateImageInScreenUseCasePort):
                 image.location = self.__container.screen_reader.get_image_location(image)
                 self.__container.printer.close_line()
                 self.__container.printer.print_line(
-                    f'{image.name} localizado: {image.location.to_string()}'
+                    f'{image.name.value} localizado: {image.location.to_string()}'
                 )
                 return
 
             except ImageNotInScreenException:
                 image.location = None
                 self.__container.printer.print_open_line(
-                    f'{image.name} não localizado ({try_count + 1})'
+                    f'{image.name.value} não localizado ({try_count + 1})'
                 )
                 time.sleep(self.__seconds_between_tries)
                 continue
 
-        error_message = f'{image.name} não localizado em {self.__max_tries} tentativas'
+        error_message = f'{image.name.value} não localizado em {self.__max_tries} tentativas'
         self.__container.printer.close_line()
         self.__container.printer.print_line(error_message)
         raise ImageNotInScreenException(error_message)
