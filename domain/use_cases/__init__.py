@@ -2,3 +2,4 @@ from domain.use_cases.locate_image_in_screen_use_case import LocateImageInScreen
 from domain.use_cases.run_program_use_case import RunProgramUseCase
 from domain.use_cases.image_is_in_region_use_case import ImageIsInRegionUseCase
 from domain.use_cases.click_on_image_use_case import ClickOnImageUseCase
+from domain.use_cases.get_game_result_use_case import GetGameResultUseCase
