@@ -3,6 +3,8 @@ import time
 from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
 from domain.entities import Image
+from domain.enums import GameResultEnum
+from domain.exceptions import UnexpectedGameResultException
 from domain.ports import RunProgramUseCasePort
 from domain.sets.image_set import ImageSet
 from domain.value_objects import Money, Profit
@@ -38,10 +40,11 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __set_up(self) -> None:
         self.__prompt_user_config()
-        self.__current_bet = self.__config.starting_bet
+        self.__set_starting_bet()
 
     def __main_loop(self) -> None:
         self.__container.printer.print_line(f'Iniciando loop {self.__turns}')
+        self.__type_bet()
         self.__click_on_start_game()
         self.__click_on_square()
         self.__manage_game_result()
@@ -70,38 +73,27 @@ class RunProgramUseCase(RunProgramUseCasePort):
         self.__container.click_on_image_service.execute(image)
         self.__sleep()
 
-    def __type_bet(self, money: Money) -> None:
+    def __type_bet(self) -> None:
         self.__container.printer.print_line('Digitando aposta')
         self.__container.click_on_image_service.execute(ImageSet.MONEY_SIGN)
-        self.__container.typer.type_money(money)
+        self.__container.typer.type_money(self.__current_bet)
         self.__sleep()
+
+    def __set_starting_bet(self) -> None:
+        self.__set_bet(money=self.__config.starting_bet)
 
     def __set_bet(self, money: Money) -> None:
         self.__container.printer.print_line(f'Configurando aposta: R${self.__current_bet}')
         self.__current_bet = money
 
-    def __diamond_appeared(self) -> bool:
-        return self.__image_appeared_on_square(ImageSet.DIAMOND.location)
-
-    def __bomb_appeared(self) -> bool:
-        return self.__image_appeared_on_square(ImageSet.BOMB.location)
-
-    def __image_appeared_on_square(self, image: Image) -> bool:
-        return self.__container.screen_reader.image_is_in_region(
-            image=image,
-            screen_region=ImageSet.SQUARE.location
-        )
-
     def __manage_game_result(self) -> None:
-        for _ in range(self.__container.check_for_image_on_square_max_tries.value):
-            if self.__diamond_appeared():
-                self.__manage_win()
-            elif self.__bomb_appeared():
-                self.__manage_loss()
-            else:
-                self.__image_location_error = True
-                self.__sleep()
-                self.__locate_square()
+        game_result = self.__container.get_game_result_service.execute()
+        if game_result == GameResultEnum.WIN:
+            self.__manage_win()
+        elif game_result == GameResultEnum.LOSS:
+            self.__manage_loss()
+        else:
+            raise UnexpectedGameResultException()
 
     def __manage_win(self) -> None:
         self.__click_on_withdraw_money()
@@ -124,7 +116,7 @@ class RunProgramUseCase(RunProgramUseCasePort):
 
     def __multiply_bet_by_martingale(self) -> None:
         bet = self.__current_bet.multiply(self.__config.martingale_multiplier)
-        self.__type_bet(bet)
+        self.__set_bet(bet)
 
     def __sleep(self) -> None:
         time.sleep(self.__config.seconds_between_actions.value)

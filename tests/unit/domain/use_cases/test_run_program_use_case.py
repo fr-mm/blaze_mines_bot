@@ -7,7 +7,7 @@ from domain.aggregates import Config
 from domain.containers import RunProgramUseCaseContainer
 from domain.services import PrinterService
 from domain.ports import ClickerPort, TyperPort, KeyboardListenerPort, ScreenReaderPort, ConfigSetterInterfacePort, \
-    LocateImageInScreenUseCasePort
+    LocateImageInScreenUseCasePort, GetGameResultUseCasePort
 from domain.use_cases import RunProgramUseCase, ClickOnImageUseCase
 from domain.value_objects import ScreenRegion, ImagePath
 
@@ -22,6 +22,7 @@ class TestRunProgramUseCase(TestCase):
         self.locate_image_in_screen_service_mock = mock(LocateImageInScreenUseCasePort)
         self.printer_mock = mock(PrinterService)
         self.click_on_image_service = mock(ClickOnImageUseCase)
+        self.get_game_result_service = mock(GetGameResultUseCasePort)
 
         self.container = RunProgramUseCaseContainer(
             clicker=self.clicker_mock,
@@ -31,7 +32,8 @@ class TestRunProgramUseCase(TestCase):
             config_setter_interface=self.config_setter_interface_mock,
             locate_image_in_screen_service=self.locate_image_in_screen_service_mock,
             printer=self.printer_mock,
-            click_on_image_service=self.click_on_image_service
+            click_on_image_service=self.click_on_image_service,
+            get_game_result_service=self.get_game_result_service
         )
 
         self.screen_region_mock = mock(ScreenRegion)

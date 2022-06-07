@@ -13,3 +13,4 @@ from domain.exceptions.check_for_image_on_square_max_tries_exception import Chec
 from domain.exceptions.quit_program_key_pressed_exception import QuitProgramKeyPressedException
 from domain.exceptions.image_name_exception import ImageNameException
 from domain.exceptions.image_location_not_set_exception import ImageLocationNotSetException
+from domain.exceptions.unexpected_game_result_exception import UnexpectedGameResultException
