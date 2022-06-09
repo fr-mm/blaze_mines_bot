@@ -23,3 +23,23 @@ class TestScreenRegion(TestCase):
         screen_region = ScreenRegion.full_screen()
 
         self.assertGreater(screen_region.bottom_right.x, screen_region.bottom_right.y)
+
+    def test_width_WHEN_called_THEN_returns_expected_width(self) -> None:
+        top_left = Coordinates(60, 80)
+        bottom_right = Coordinates(160, 170)
+        screen_region = ScreenRegion(top_left=top_left, bottom_right=bottom_right)
+
+        result_width = screen_region.width
+
+        expected_width = 100
+        self.assertEqual(result_width, expected_width)
+
+    def test_height_WHEN_called_THEN_returns_expected_height(self) -> None:
+        top_left = Coordinates(60, 80)
+        bottom_right = Coordinates(160, 170)
+        screen_region = ScreenRegion(top_left=top_left, bottom_right=bottom_right)
+
+        result_height = screen_region.height
+
+        expected_height = 90
+        self.assertEqual(result_height, expected_height)
