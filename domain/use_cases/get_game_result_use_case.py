@@ -6,7 +6,7 @@ from domain.enums import GameResultEnum
 from domain.exceptions import CheckForImageOnSquareMaxTriesException
 from domain.ports import GetGameResultUseCasePort
 from domain.sets.image_set import ImageSet
-from domain.value_objects import ScreenRegion, Seconds
+from domain.value_objects import ScreenRegion, Seconds, Coordinates
 
 
 class GetGameResultUseCase(GetGameResultUseCasePort):
@@ -55,6 +55,21 @@ class GetGameResultUseCase(GetGameResultUseCasePort):
                 screen_region=ScreenRegion.full_screen()
         ):
             self.__container.locate_image_in_screen_service.execute(image=image)
-            ImageSet.SQUARE.location = image.location
+            ImageSet.SQUARE.location = self.__resize_screen_region_to_square_size(image.location)
             return True
         return False
+
+    @staticmethod
+    def __resize_screen_region_to_square_size(original_screen_region: ScreenRegion) -> ScreenRegion:
+        half_width = round(ImageSet.SQUARE.location.width / 2)
+        half_height = round(ImageSet.SQUARE.location.height / 2)
+        return ScreenRegion(
+            top_left=Coordinates(
+                x=original_screen_region.center.x - half_width,
+                y=original_screen_region.center.y - half_height
+            ),
+            bottom_right=Coordinates(
+                x=original_screen_region.center.x + half_width,
+                y=original_screen_region.center.y + half_height
+            )
+        )

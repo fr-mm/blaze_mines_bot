@@ -54,6 +54,9 @@ class ScreenRegion:
     def center(self) -> Coordinates:
         return self.__center
 
+    def equals(self, screen_region: ScreenRegion) -> bool:
+        return screen_region.top_left == self.top_left and screen_region.bottom_right == self.bottom_right
+
     def to_string(self) -> str:
         return f'(({self.__top_left.x}, {self.__top_left.y}), ({self.__bottom_right.x}, {self.__bottom_right.y}))'
 

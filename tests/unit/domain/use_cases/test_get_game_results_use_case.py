@@ -8,7 +8,7 @@ from domain.exceptions import CheckForImageOnSquareMaxTriesException
 from domain.ports import ImageIsInRegionUseCasePort, LocateImageInScreenUseCasePort
 from domain.sets.image_set import ImageSet
 from domain.use_cases import GetGameResultUseCase
-from domain.value_objects import Seconds, ScreenRegion
+from domain.value_objects import Seconds, ScreenRegion, Coordinates
 
 
 class TestGetGameResultsUseCase(TestCase):
@@ -21,7 +21,10 @@ class TestGetGameResultsUseCase(TestCase):
         )
         self.max_tries = 1
         self.seconds_between_tries = Seconds(0)
-        self.square_location = mock(ScreenRegion)
+        self.square_location = ScreenRegion(
+            top_left=Coordinates(x=10, y=20),
+            bottom_right=Coordinates(x=30, y=60)
+        )
         ImageSet.SQUARE.location = self.square_location
 
     def tearDown(self) -> None:
@@ -80,7 +83,10 @@ class TestGetGameResultsUseCase(TestCase):
             screen_region=ScreenRegion.full_screen()
         ).thenReturn(True)
         when(self.locate_image_in_screen_service).execute(image=ImageSet.DIAMOND)
-        diamond_location = mock(ScreenRegion)
+        diamond_location = ScreenRegion(
+            top_left=Coordinates(x=30, y=60),
+            bottom_right=Coordinates(x=40, y=100)
+        )
         ImageSet.DIAMOND.location = diamond_location
         get_game_result_use_case = GetGameResultUseCase(
             container=self.container,
@@ -94,7 +100,7 @@ class TestGetGameResultsUseCase(TestCase):
             pass
 
         expected_square_location = diamond_location
-        self.assertEqual(ImageSet.SQUARE.location, expected_square_location)
+        self.assertEqual(ImageSet.SQUARE.location.center, expected_square_location.center)
 
     def test_execute_WHEN_bomb_and_diamond_not_found_in_square_region_but_bomb_is_in_screen_THEN_sets_bomb_location_to_square_location(self) -> None:
         when(self.image_is_in_region_service).execute(
@@ -115,7 +121,10 @@ class TestGetGameResultsUseCase(TestCase):
         ).thenReturn(True)
         when(self.locate_image_in_screen_service).execute(image=ImageSet.DIAMOND)
         when(self.locate_image_in_screen_service).execute(image=ImageSet.BOMB)
-        bomb_location = mock(ScreenRegion)
+        bomb_location = ScreenRegion(
+            top_left=Coordinates(x=30, y=60),
+            bottom_right=Coordinates(x=40, y=100)
+        )
         ImageSet.BOMB.location = bomb_location
         get_game_result_use_case = GetGameResultUseCase(
             container=self.container,
@@ -129,7 +138,7 @@ class TestGetGameResultsUseCase(TestCase):
             pass
 
         expected_square_location = bomb_location
-        self.assertEqual(ImageSet.SQUARE.location, expected_square_location)
+        self.assertEqual(ImageSet.SQUARE.location.center, expected_square_location.center)
 
     def test_execute_WHEN_bomb_and_diamond_not_in_screen_THEN_try_again(self) -> None:
         max_tries = 2
