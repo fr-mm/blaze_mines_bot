@@ -12,6 +12,7 @@ class ScreenRegion:
     __bottom_right: Coordinates
     __width: int
     __height: int
+    __center = Coordinates
 
     def __init__(self, top_left: Coordinates, bottom_right: Coordinates) -> None:
         self.__validate_area(top_left, bottom_right)
@@ -19,6 +20,10 @@ class ScreenRegion:
         self.__bottom_right = bottom_right
         self.__width = bottom_right.x - top_left.x
         self.__height = bottom_right.y - top_left.y
+        self.__center = Coordinates(
+            x=self.top_left.x + round(self.__width / 2),
+            y=self.top_left.y + round(self.__height / 2)
+        )
 
     @staticmethod
     def __validate_area(top_left: Coordinates, bottom_right: Coordinates) -> None:
@@ -44,6 +49,10 @@ class ScreenRegion:
     @property
     def height(self) -> int:
         return self.__height
+
+    @property
+    def center(self) -> Coordinates:
+        return self.__center
 
     def to_string(self) -> str:
         return f'(({self.__top_left.x}, {self.__top_left.y}), ({self.__bottom_right.x}, {self.__bottom_right.y}))'

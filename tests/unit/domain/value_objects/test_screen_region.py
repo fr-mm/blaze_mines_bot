@@ -43,3 +43,14 @@ class TestScreenRegion(TestCase):
 
         expected_height = 90
         self.assertEqual(result_height, expected_height)
+
+    def test_center_WHEN_called_THEN_returns_expected_coordinates(self) -> None:
+        top_left = Coordinates(60, 80)
+        bottom_right = Coordinates(160, 170)
+        screen_region = ScreenRegion(top_left=top_left, bottom_right=bottom_right)
+
+        result_center = screen_region.center
+
+        expected_center = Coordinates(x=110, y=125)
+        self.assertEqual(result_center, expected_center)
+
